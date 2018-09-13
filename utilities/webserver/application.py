@@ -1,16 +1,20 @@
 import tornado.ioloop
 import tornado.web
 
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write('hello word')
+class Applcation:
+    __application_list = None
 
-def make_app():
-    return tornado.web.Application(
-        [(r'/', MainHandler),]
-    )
+    def __init__(self):
+        self.__application_list = list()
+
+    def add_service(self, function, api_path, method_list):
+        pass
+
+    def start(self, port):
+        pass
+
+def testcases():
+    application = Applcation()
 
 if __name__ == '__main__':
-    application = make_app()
-    application.listen(8000)
-    tornado.ioloop.IOLoop.current().start()
+    testcases()
