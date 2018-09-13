@@ -1,9 +1,6 @@
 import tornado.ioloop
 import tornado.web
 
-import os
-print(os.path.abspath('./'))
-
 from constants import Method
 
 class Applcation:
@@ -14,8 +11,9 @@ class Applcation:
 
     def add_service(self, function, api_path, method_list):
         def member_function(self):
-            function()
+            self.write(function())
 
+        import pdb; pdb.set_trace()
         class RequestHandler(tornado.web.RequestHandler):
             for method in method_list:
                 setattr(self, method, member_function)
@@ -29,11 +27,11 @@ class Applcation:
 
 def testcases():
     application = Applcation()
-    application.add_service(function, '/', method_list = [Method.get])
+    application.add_service(function, '/hello/', method_list = [Method.get])
     application.start(port = 8000)
 
 def function():
-    print('hello world')
+    return 'hello world'
 
 if __name__ == '__main__':
     testcases()
