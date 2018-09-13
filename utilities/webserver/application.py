@@ -14,6 +14,7 @@ class Applcation:
             self.write(function())
 
         import pdb; pdb.set_trace()
+        import rlcompleter
         class RequestHandler(tornado.web.RequestHandler):
             for method in method_list:
                 setattr(self, method, member_function)
