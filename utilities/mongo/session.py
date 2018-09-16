@@ -40,9 +40,12 @@ def testcases():
     mongo_session = MongoSession(
         host = 'localhost',
         port = 27017,
-        usename = 'admin',
+        username = 'admin',
         password = 'admin'
     )
 
-    for item in mongo_session(database_name = 'admin', table_name = 'test'):
+    for item in mongo_session.iterate_item(database_name = 'admin', table_name = 'test'):
         print(item)
+
+if __name__ == '__main__':
+    testcases()
