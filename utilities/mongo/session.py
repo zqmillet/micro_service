@@ -35,3 +35,14 @@ class MongoSession:
 
         for item in mongo_table:
             yield item
+
+def testcases():
+    mongo_session = MongoSession(
+        host = 'localhost',
+        port = 27017,
+        usename = 'admin',
+        password = 'admin'
+    )
+
+    for item in mongo_session(database_name = 'admin', table_name = 'test'):
+        print(item)
