@@ -19,14 +19,14 @@ class MongoSession:
         return self.__client.database_names()
 
     def fetch_database(self, database_name):
-        # if not database_name in self.fetch_database_name_list():
-        #     return None
-
-        return MongoDatabase(self.__client[database_name])
+        return MongoDatabase(self.__client[database_name], self)
 
     def iterate_item(self, database_name, collection_name):
         for item in self[database_name][collection_name]:
             yield item
+
+    def drop_database(self, database_name):
+        self.__client.drop_database(database_name)
 
     def __getitem__(self, database_name):
         return self.fetch_database(database_name)
@@ -43,9 +43,11 @@ def testcases():
         print(item)
         item.drop()
 
-    mongo_database = mongo_session['adin']
-    mongo_collection = mongo_database['test123']
-    mongo_collection.insert({'abc': 'jdfskjfksd'})
+    mongo_session['adin'].drop()
+
+    # mongo_database = mongo_session['adin']
+    # mongo_collection = mongo_database['test123']
+    # mongo_collection.insert({'abc': 'jdfskjfksd'})
 
 
 if __name__ == '__main__':
