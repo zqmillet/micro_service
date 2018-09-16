@@ -45,7 +45,7 @@ def testcases():
     mongo_database = mongo_session['adin']
     mongo_collection = mongo_database['test123']
     mongo_collection.insert({'abc': 'jdfskjfksd'})
-    mongo_collection.remove()
+    mongo_collection.drop()
 
 if __name__ == '__main__':
     testcases()

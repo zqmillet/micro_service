@@ -16,5 +16,8 @@ class MongoCollection:
     def insert(self, data):
         self.__collection.insert_one(data)
 
-    def remove(self):
+    def clear_items(self):
         self.__collection.remove()
+
+    def drop(self):
+        self.__collection.drop()
