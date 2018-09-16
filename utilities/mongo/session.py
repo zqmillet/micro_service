@@ -41,11 +41,12 @@ def testcases():
 
     for item in mongo_session.iterate_item(database_name = 'adin', collection_name = 'test'):
         print(item)
+        item.drop()
 
     mongo_database = mongo_session['adin']
     mongo_collection = mongo_database['test123']
     mongo_collection.insert({'abc': 'jdfskjfksd'})
-    mongo_collection.drop()
+
 
 if __name__ == '__main__':
     testcases()

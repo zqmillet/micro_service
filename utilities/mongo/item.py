@@ -26,3 +26,6 @@ class MongoItem:
     def __str__(self):
         dictionary = {key: value for key, value in self.__item.items() if not key == self.__ID}
         return str(self.__item[self.__ID]) + ': ' + json.dumps(dictionary, ensure_ascii = False)
+
+    def drop(self):
+        self.__collection.delete_one({self.__ID: self.__item[self.__ID]})
