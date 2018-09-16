@@ -25,15 +25,7 @@ class MongoSession:
         return MongoDatabase(self.__client[database_name])
 
     def iterate_item(self, database_name, table_name):
-        # mongo_database = self.fetch_database(database_name)
-        # if mongo_database is None:
-        #     return
-
-        # mongo_table = mongo_database.fetch_table(table_name)
-        # if mongo_table is None:
-        #     return
-
-        for item in mongo_table:
+        for item in self[database_name][table_name]:
             yield item
 
     def __getitem__(self, database_name):
