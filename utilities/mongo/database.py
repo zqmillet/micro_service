@@ -1,4 +1,4 @@
-from utilities.mongo import MongoTable
+from utilities.mongo import MongoCollection
 
 class MongoDatabase:
     __database = None
@@ -6,14 +6,11 @@ class MongoDatabase:
     def __init__(self, database):
         self.__database = database
 
-    def fetch_table_name_list(self):
+    def fetch_collection_name_list(self):
         return self.__database.collection_names()
 
-    def fetch_table(self, table_name):
-        # if not table_name in self.fetch_table_name_list():
-        #     return None
+    def fetch_collection(self, collection_name):
+        return MongoCollection(self.__database[collection_name])
 
-        return MongoTable(self.__database[table_name])
-
-    def __getitem__(self, table_name):
-        return self.fetch_table(table_name)
+    def __getitem__(self, collection_name):
+        return self.fetch_collection(collection_name)

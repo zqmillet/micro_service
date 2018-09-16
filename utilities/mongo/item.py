@@ -2,19 +2,19 @@ import json
 
 class MongoItem:
     __item = None
-    __Table = None
+    __collection = None
 
     __ID = '_id'
 
-    def __init__(self, item, table):
+    def __init__(self, item, collection):
         self.__item = item
-        self.__table = table
+        self.__collection = collection
 
     def __getitem__(self, key):
         return self.__item.get(key, None)
 
     def __setitem__(self, key, value):
-        self.__table.update({
+        self.__collection.update({
             self.__ID: self.__item[self.__ID]
         }, {
             '$set': {

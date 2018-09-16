@@ -24,8 +24,8 @@ class MongoSession:
 
         return MongoDatabase(self.__client[database_name])
 
-    def iterate_item(self, database_name, table_name):
-        for item in self[database_name][table_name]:
+    def iterate_item(self, database_name, collection_name):
+        for item in self[database_name][collection_name]:
             yield item
 
     def __getitem__(self, database_name):
@@ -39,12 +39,13 @@ def testcases():
         password = 'admin'
     )
 
-    for item in mongo_session.iterate_item(database_name = 'adin', table_name = 'test'):
+    for item in mongo_session.iterate_item(database_name = 'adin', collection_name = 'test'):
         print(item)
 
     mongo_database = mongo_session['adin']
-    mongo_table = mongo_database['test123']
-    mongo_table.insert({'abc': 'jdfskjfksd'})
+    mongo_collection = mongo_database['test123']
+    mongo_collection.insert({'abc': 'jdfskjfksd'})
+    mongo_collection.remove()
 
 if __name__ == '__main__':
     testcases()
