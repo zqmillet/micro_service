@@ -12,3 +12,6 @@ class MongoTable:
 
     def find(self, condition = {}):
         return self.__table.find(condition)
+
+    def insert(self, data):
+        pass
