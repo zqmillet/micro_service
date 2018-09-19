@@ -66,7 +66,5 @@ def testcases():
     # drop the database.
     mongo_session['new_database'].drop()
 
-
-
 if __name__ == '__main__':
     testcases()
