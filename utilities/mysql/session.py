@@ -272,7 +272,7 @@ def testcases():
     mysql_session = MySQLSession(
         host     = 'localhost',
         username = 'root',
-        password = 'root',
+        password = '12345678',
         port     = 3306
     )
 
