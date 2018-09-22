@@ -1,5 +1,4 @@
 import logging
-import logging.config
 
 class LOGGING_LEVEL:
     INFO     = logging.INFO
