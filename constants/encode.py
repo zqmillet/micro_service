@@ -1,2 +1,2 @@
-class Encode:
-    utf8 = 'utf8'
+class ENCODE:
+    UTF8 = 'utf8'

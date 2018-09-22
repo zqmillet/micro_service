@@ -1,3 +1,3 @@
-class Method:
-    get = 'get'
-    post = 'post'
+class METHOD:
+    GET = 'get'
+    POST = 'post'

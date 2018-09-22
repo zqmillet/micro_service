@@ -1,3 +1,3 @@
-class Status:
-    success = 'success'
-    failure = 'failure'
+class STATUS:
+    SUCCESS = 'success'
+    FAILURE = 'failure'

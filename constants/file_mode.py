@@ -1,3 +1,3 @@
-class FileMode:
-    read = 'r'
-    write = 'w'
+class FILE_MODE:
+    READ = 'r'
+    WRITE = 'w'
