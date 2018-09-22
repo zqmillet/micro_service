@@ -8,16 +8,15 @@ class MySQLSession:
 
     def __init__(self, host, port, username, password, charset = 'utf8'):
         self.__session = pymysql.connect(
-            host     = host,
-            user     = username,
-            password = password,
-            port     = port,
-            charset  = charset,
+            host       = host,
+            user       = username,
+            password   = password,
+            port       = port,
+            charset    = charset,
             autocommit = True
         )
 
     def execute(self, command):
-        print(command)
         with self.__session.cursor() as cursor:
             cursor.execute(command)
             return cursor.fetchall()
@@ -33,9 +32,6 @@ class MySQLSession:
 
     def __getitem__(self, database_name):
         return self.fetch_database(database_name)
-
-    def commit(self):
-        pass
 
 def testcases():
     mysql_session = MySQLSession(
