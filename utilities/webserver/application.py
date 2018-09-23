@@ -2,31 +2,56 @@ import tornado.web
 import tornado.ioloop
 import inspect
 
-from constants import Encode, Method, Status
+from constants import METHOD, STATUS
+
+
 
 def create_tornado_request_handler(function, method_list):
-    function_arguments = inspect.getargspec(function).args
 
-    import pdb; pdb.set_trace()
+    def get(self):
+        input_arguments= {key: value[0] for key, value in self.request.arguments.items()}
+        if not set(input_arguments.keys()).issubset(set(function_arguments)):
+            self.write(STATUS.FAILURE)
+            return
+        result = function(**input_arguments)
+        self.write(result)
+
+    function_arguments = inspect.getargspec(function).args
     class RequestHandler(tornado.web.RequestHandler):
         pass
-
+    for method in method_list:
+        if method == METHOD.GET:
+            setattr(RequestHandler, method, get)
     return RequestHandler
 
 
 class Application:
-    service_list = None
+    __service_list = None
+    __application = None
 
     def __init__(self):
-        self.service_list = list()
+        self.__service_list = list()
 
     def regist_service(self, function, api_path, method_list):
-        pass
+        RequestHandler = create_tornado_request_handler(function, method_list = [METHOD.GET])
+        self.__service_list.append(
+            (api_path, RequestHandler)
+        )
+
+    def start(self, port):
+        self.__application = tornado.web.Application(self.__service_list)
+        self.__application.listen(port)
+        tornado.ioloop.IOLoop.instance().start()
 
 def testcases():
-    def add(x, y):
-        return x + y
-    RequestHandler = create_tornado_request_handler(add, method_list = [Method.get])
+    def add(x, y = '1'):
+        x = int(x)
+        y = int(y)
+        return str(x + y)
+
+    application = Application()
+    application.regist_service(add, api_path = '/add', method_list = [METHOD.GET])
+    application.start(port = 8000)
 
 if __name__ == '__main__':
     testcases()
