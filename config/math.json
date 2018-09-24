@@ -1,0 +1,5 @@
+{
+    "pi": "### import math; math.pi",
+    "e": "### import math; math.e",
+    "inf": "### import math; math.inf"
+}
