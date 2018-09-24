@@ -34,12 +34,10 @@ class MySQLSession:
         return self.fetch_database(database_name)
 
 def testcases():
-    mysql_session = MySQLSession(
-        host     = 'localhost',
-        username = 'root',
-        password = '12345678',
-        port     = 3306
-    )
+    from utilities.configuration import Configuration
+    configuration = Configuration('./config/database.json')
+
+    mysql_session = MySQLSession(**configuration.mysql)
 
     collection = mysql_session['new_database']['new_collection']
     for number in range(10):

@@ -32,13 +32,11 @@ class MongoSession:
         return self.fetch_database(database_name)
 
 def testcases():
+    from utilities.configuration import Configuration
+    configuration = Configuration('./config/database.json')
+
     # create a mongo database session.
-    mongo_session = MongoSession(
-        host = 'localhost',
-        port = 27017,
-        username = 'admin',
-        password = 'admin'
-    )
+    mongo_session = MongoSession(**configuration.mongo)
 
     # create a new database, and create a new collection, then insert 10 items
     # into the new collection.
