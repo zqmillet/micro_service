@@ -13,6 +13,9 @@ def testcases():
 
     configuration = Configuration(dictionary)
     print(configuration)
+    print(configuration.name)
+    print(configuration.company.name)
+    print(configuration.department)
 
     configuration = Configuration('./config/database.json')
     print(configuration)
