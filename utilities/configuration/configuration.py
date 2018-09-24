@@ -1,3 +1,5 @@
+import json
+
 class Configuration:
     def __init__(self, dictionary):
         for key, value in dictionary.items():
@@ -17,6 +19,9 @@ class Configuration:
                 dictionary[key] = value
         return dictionary
 
+    def __str__(self):
+        return json.dumps(self.to_dictionary(), ensure_ascii = False, indent = 4)
+
 def testcases():
     dictionary = {
         'name': 'qiqi',
@@ -29,7 +34,7 @@ def testcases():
     }
 
     configuration = Configuration(dictionary)
-    import pdb; pdb.set_trace()
+    print(configuration)
 
 if __name__ == '__main__':
     testcases()
