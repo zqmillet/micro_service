@@ -21,6 +21,3 @@ class Configuration(dict):
                     value = execute(value.strip(self.__prefix).strip())
                 setattr(self, key, value)
             self[key] = value
-
-    # def __str__(self):
-    #     return json.dumps(self, ensure_ascii = False, indent = 4)
