@@ -18,8 +18,9 @@ class Configuration(dict):
                 setattr(self, key, Configuration(value, prefix = self.__prefix))
             else:
                 if isinstance(value, str) and value.startswith(self.__prefix):
-                    value = execute(value.strip(self.__prefix).strip())
-                setattr(self, key, value)
+                    setattr(self, key, execute(value.strip(self.__prefix).strip()))
+                else:
+                    setattr(self, key, value)
             self[key] = value
 
     def __str__(self):

@@ -1,5 +1,7 @@
 {
     "pi": "### import math; math.pi",
     "e": "### import math; math.e",
-    "inf": "### import math; math.inf"
+    "inf": "### import math; math.inf",
+    "exp": "### import math; math.exp",
+    "square": "### lambda x: x**2"
 }
