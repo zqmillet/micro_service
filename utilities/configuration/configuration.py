@@ -1,26 +1,16 @@
 import json
 
-class Configuration:
+class Configuration(dict):
     def __init__(self, dictionary):
         for key, value in dictionary.items():
             if isinstance(value, dict):
                 setattr(self, key, Configuration(value))
             else:
                 setattr(self, key, value)
-
-    def to_dictionary(self):
-        keys = [item for item in self.__dir__() if not item.startswith('__') and not callable(getattr(self, item))]
-        dictionary = dict()
-        for key in keys:
-            value = getattr(self, key)
-            if isinstance(value, Configuration):
-                dictionary[key] = value.to_dictionary()
-            else:
-                dictionary[key] = value
-        return dictionary
+            self[key] = value
 
     def __str__(self):
-        return json.dumps(self.to_dictionary(), ensure_ascii = False, indent = 4)
+        return json.dumps(self, ensure_ascii = False, indent = 4)
 
 def testcases():
     dictionary = {
