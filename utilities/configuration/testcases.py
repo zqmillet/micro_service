@@ -37,8 +37,11 @@ def testcases():
     print('the configuration is:')
     print(configuration)
 
-    print(configuration.exp(1))
-    print(configuration.square(2))
+    print('the attribute of the configuration can be a buid-in function:')
+    print('configuration.exp(1) = {}'.format(configuration.exp(1)))
+
+    print('the attribute of the configuration can be a lambda expression:')
+    print('configuration.square(2) = {}'.format(configuration.square(2)))
 
 if __name__ == '__main__':
     testcases()
