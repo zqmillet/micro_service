@@ -1,8 +1,14 @@
 import json
 
+from constants import FILE_MODE, ENCODE
+
 class Configuration(dict):
-    def __init__(self, dictionary):
-        for key, value in dictionary.items():
+    def __init__(self, argument):
+        if isinstance(argument, str):
+            with open(argument, FILE_MODE.READ, encoding = ENCODE.UTF8) as file:
+                argument = json.loads(file.read())
+
+        for key, value in argument.items():
             if isinstance(value, dict):
                 setattr(self, key, Configuration(value))
             else:
@@ -24,6 +30,9 @@ def testcases():
     }
 
     configuration = Configuration(dictionary)
+    print(configuration)
+
+    configuration = Configuration('./config/database.json')
     print(configuration)
 
 if __name__ == '__main__':
