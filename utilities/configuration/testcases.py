@@ -1,4 +1,5 @@
 from utilities.configuration import Configuration
+from exceptions import *
 
 def testcases():
     dictionary = {
@@ -42,6 +43,18 @@ def testcases():
 
     print('the attribute of the configuration can be a lambda expression:')
     print('configuration.square(2) = {}'.format(configuration.square(2)))
+
+    try:
+        configuration = Configuration('../config/math.json')
+    except FileDoesNotExistError as e:
+        print(e)
+
+    try:
+        configuration = Configuration([1, 2, 3])
+    except TypeError as e:
+        print(e)
+
+
 
 if __name__ == '__main__':
     testcases()

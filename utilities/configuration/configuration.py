@@ -1,6 +1,8 @@
 import json
+import os
 
 from constants import FILE_MODE, ENCODE
+from exceptions import FileDoesNotExistError, TypeError
 from utilities.configuration import execute
 
 class Configuration(dict):
@@ -16,17 +18,26 @@ class Configuration(dict):
         this is the constructor of the class Configuration.
 
         parameters:
-            argument    - this is the input argument.
-                          if its type is str, it will be regarded as a json file path;
-                          if its type is dict, it will be regarded as a dictionary.
-            code_prefix - if a value starts with code_prefix, it is a python code.
+            - argument:
+                this is the input argument.
+                if its type is str, it will be regarded as a json file path;
+                if its type is dict, it will be regarded as a dictionary.
+
+            - code_prefix:
+                if a value starts with code_prefix, it is a python code.
         '''
 
-        self.__prefix = code_prefix
+        self.__code_prefix = code_prefix
 
         if isinstance(argument, str):
+            if not os.path.isfile(argument):
+                raise FileDoesNotExistError(argument)
+
             with open(argument, FILE_MODE.READ, encoding = ENCODE.UTF8) as file:
                 argument = json.loads(file.read())
+
+        if not isinstance(argument, dict):
+            raise TypeError(type(argument))
 
         for key, value in argument.items():
             if isinstance(value, dict):
