@@ -1,2 +1,2 @@
-from .file import FileDoesNotExistError
-from .type import TypeError
+from .file import *
+from .type import *
