@@ -37,12 +37,15 @@ def iterate_lines(file_path, encoding = ENCODE.UTF8, show_progress_bar = False):
             yield line.strip('\n')
 
 def testcases():
+    # read and print itself.
     for index, line in enumerate(iterate_lines(os.path.realpath(__file__), show_progress_bar = False)):
         print('{index:2d} {line}'.format(index = index + 1, line = line))
 
+    # read a file which does not exist.
     for line in iterate_lines('./file_which_does_not_exist'):
         print(line)
 
+    # show the docstring.
     help(iterate_lines)
 
 if __name__ == '__main__':
