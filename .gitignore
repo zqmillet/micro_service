@@ -112,3 +112,4 @@ dmypy.json
 
 log/*
 cache/*
+models/*
