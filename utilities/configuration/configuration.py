@@ -31,7 +31,7 @@ class Configuration(dict):
 
         if isinstance(argument, str):
             if not os.path.isfile(argument):
-                raise FileDoesNotExistError(argument)
+                raise FileDoesNotExistError(file_path = argument)
 
             with open(argument, FILE_MODE.READ, encoding = ENCODE.UTF8) as file:
                 argument = json.loads(file.read())
