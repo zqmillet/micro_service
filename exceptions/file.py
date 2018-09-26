@@ -1,17 +1,15 @@
-class FileDoesNotExistError(Exception):
+from exceptions import BaseException
+
+class FileDoesNotExistError(BaseException):
     file_path = None
+    message = 'the file "{file_path}" does not exist.'
 
     def __init__(self, file_path):
         self.file_path = file_path
 
-    def __str__(self):
-        return 'the file {file_path} does not exist.'.format(file_path = self.file_path)
-
-class DirectoryDoesNotExistError(Exception):
+class DirectoryDoesNotExistError(BaseException):
     directory_path = None
+    message = 'the directory "{directory_path}" does not exist.'
 
     def __init__(self, directory_path):
         self.directory_path = directory_path
-
-    def __str__(self):
-        return 'the directory {directory_path} does not exist.'.format(directory_path = self.directory_path)

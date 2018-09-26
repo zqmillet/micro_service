@@ -54,5 +54,10 @@ def testcases():
     except TypeError as e:
         print(e)
 
+    try:
+        configuration = Configuration(0)
+    except TypeError as e:
+        print(e)
+
 if __name__ == '__main__':
     testcases()

@@ -1,8 +1,8 @@
-class TypeError(Exception):
+from exceptions import BaseException
+
+class TypeError(BaseException):
     type = None
+    message = 'unexcepted type {type}.'
 
     def __init__(self, type):
         self.type = type
-
-    def __str__(self):
-        return 'unexcepted type: {type}.'.format(type = self.type)
