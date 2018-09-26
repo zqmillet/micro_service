@@ -37,8 +37,8 @@ def iterate_lines(file_path, encoding = ENCODE.UTF8, show_progress_bar = False):
             yield line.strip('\n')
 
 def testcases():
-    for line in iterate_lines('./utilities/file/iterate_lines.py', show_progress_bar = False):
-        print(line)
+    for index, line in enumerate(iterate_lines('./utilities/file/iterate_lines.py', show_progress_bar = False)):
+        print('{index:2d} {line}'.format(index = index + 1, line = line))
 
     for line in iterate_lines('./file_which_does_not_exist'):
         print(line)
