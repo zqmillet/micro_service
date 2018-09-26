@@ -1,6 +1,14 @@
 import ast
 
 def execute(code):
+    '''
+    this function is used to execute the python code, and get the value of the last line.
+
+    parameters:
+        - code:
+            this is the python code which will be executed.
+    '''
+
     block = ast.parse(code, mode = 'exec')
 
     last = ast.Expression(block.body.pop().value)

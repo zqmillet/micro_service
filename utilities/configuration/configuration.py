@@ -25,6 +25,13 @@ class Configuration(dict):
 
             - code_prefix:
                 if a value starts with code_prefix, it is a python code.
+
+        exceptions:
+            - FileDoesNotExistError:
+                if the input file does not exist, this error will be thrown.
+
+            - TypeError:
+                if the argument is not a dictionary, this error will be thrown.
         '''
 
         self.__code_prefix = code_prefix
