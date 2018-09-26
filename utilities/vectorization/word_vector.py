@@ -3,14 +3,17 @@ import numpy
 
 from utilities.system import iterate_files, iterate_lines
 
-class CorpusGenerator(object):
+class CorpusGenerator(object, word_splitter = None):
     def __init__(self, directory):
         self.directory = directory
 
     def __iter__(self):
         for file_path in iterate_files(self.directory):
             for line in iterate_lines(file_path):
-                yield line.split()
+                if word_splitter is None:
+                    yield line.split()
+                else:
+                    yield word_splitter.split(line)
 
 class WordVector(dict):
     __black_dictionary = None

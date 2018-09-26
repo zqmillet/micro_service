@@ -18,16 +18,11 @@ class WordSplitter:
 
         self.tokenizer.initialize()
 
-    def split(self, text, format = 'list'):
-        if format == 'list':
-            format_function = lambda x: x
-        else: # format == 'str'
-            format_function = lambda x: ' '.join(x)
-
-        return format_function(self.tokenizer.lcut(text))
+    def split(self, text):
+        return self.tokenizer.lcut(text)
 
     def export_dictionary(self, dictionary_file_path):
-        with open(dictionary_file_path, FileMode.write, encoding = Encode.utf8) as file:
+        with open(dictionary_file_path, FILE_MODE.WRITE, encoding = ENCODE.UTF8) as file:
             for _, word in self.dictionary.items():
                 file.write(word.to_string() + '\n')
 
