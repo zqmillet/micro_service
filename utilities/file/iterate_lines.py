@@ -6,7 +6,7 @@ from constants import ENCODE, FILE_MODE
 def get_string_size(string):
     return len(string.encode(ENCODE.UTF8))
 
-def iterate_lines(file_path, show_progress_bar = False):
+def iterate_lines(file_path, encoding = ENCODE.UTF8, show_progress_bar = False):
     '''
     this function is used to iterate lines of text file.
     if the file does not exist, this function will not raise an error, but return nothing.
@@ -15,8 +15,13 @@ def iterate_lines(file_path, show_progress_bar = False):
         - file_path:
             this is the path of the file which will be iterated.
 
+        - encoding:
+            specify the encoding of the file.
+            the default value is utf8.
+
         - show_progress_bar:
             if show_progress_bar is True, a progress bar is shown.
+            the default value is False.
     '''
 
     if not os.path.isfile(file_path):
@@ -25,7 +30,7 @@ def iterate_lines(file_path, show_progress_bar = False):
     file_size = os.path.getsize(file_path)
     progress_bar = tqdm.tqdm(total = file_size) if show_progress_bar else None
 
-    with open(file_path, FILE_MODE.READ, encoding = ENCODE.UTF8) as file:
+    with open(file_path, FILE_MODE.READ, encoding = encoding) as file:
         for line in file:
             if show_progress_bar:
                 progress_bar.update(get_string_size(line))
