@@ -1,5 +1,6 @@
 import gensim
 import numpy
+import logging
 
 from utilities.system import iterate_files, iterate_lines
 from utilities.vectorization import WordSplitter
@@ -19,7 +20,7 @@ class CorpusGenerator(object):
         prefix = [self.placeholder] * self.window_size
         suffix = [self.placeholder] * self.window_size
         for file_path in iterate_files(self.directory):
-            for line in iterate_lines(file_path):
+            for line in iterate_lines(file_path, show_progress_bar = True):
                 if self.word_splitter is None:
                     yield prefix + line.split() + suffix
                 else:
@@ -33,7 +34,7 @@ class WordVector(dict):
 
     def __init__(self, model_file_path = None, random_generator = None):
         if model_file_path is None:
-            pass
+            return
 
         self.__model = gensim.models.Word2Vec.load(model_file_path)
         for word, information in self.__model.wv.vocab.items():
@@ -44,7 +45,7 @@ class WordVector(dict):
         self.__random_generator = random_generator if not random_generator is None else numpy.random.randn
 
     def training(self,
-                 corpus_directory,
+                 corpus_generator,
                  algorithm               = 'cbow',
                  vector_size             = 128,
                  alpha                   = 0.025,
@@ -60,7 +61,7 @@ class WordVector(dict):
                  batch_words             = 10000):
 
         self.model = gensim.models.Word2Vec(
-            Corpus(directory),
+            corpus_generator,
             size           = vector_size,
             alpha          = alpha,
             window         = window_size,
@@ -106,9 +107,8 @@ def testcases():
         word_splitter = WordSplitter()
     )
 
-    for sample in corpus_generator:
-        print(sample)
-        import pdb; pdb.set_trace()
+    word_vector = WordVector()
+    word_vector.training(corpus_generator)
 
 if __name__ == '__main__':
     testcases()
