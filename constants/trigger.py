@@ -1,0 +1,2 @@
+class TRIGGER:
+    CRON = 'cron'
