@@ -78,7 +78,7 @@ class WordVector(dict):
         )
 
     def save(self, model_file_path):
-        pass
+        self.model.save(model_file_path)
 
     def __getitem__(self, word):
         if word in self:
@@ -109,6 +109,7 @@ def testcases():
 
     word_vector = WordVector()
     word_vector.training(corpus_generator)
+    word_vector.save('./models/word_embedding.bin')
 
 if __name__ == '__main__':
     testcases()
