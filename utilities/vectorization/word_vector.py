@@ -7,11 +7,45 @@ from utilities.system import iterate_files, iterate_lines
 from utilities.vectorization import WordSplitter
 
 class CorpusGenerator(object):
+    '''
+    this class is a generator which can iterate corpus in a directory.
+
+    member variables:
+        - word_splitter:
+            this is a WordSplitter, which is used to split the chinese words.
+            if word_splitter is None, the word will be splitted by space.
+
+        - prefix:
+            several placeholders at the begin of a line.
+
+        - suffix:
+            several placeholders at the end of a line.
+    '''
+
     word_splitter = None
     prefix = None
     suffix = None
 
     def __init__(self, directory, window_size, placeholder, word_splitter = None):
+        '''
+        this is the constructor of the class CorpusGenerator.
+
+        parameters:
+            - directory:
+                this is the directory in which there are corpus files.
+
+            - window_size:
+                this is the windows size of the ngram.
+                if window_size = 3, the line will be expanded as:
+                    [placeholder, placeholder, placeholder, word, word, ..., word, placeholder, placeholder, placeholder]
+
+            - placeholder:
+                the placeholder for the unknown words.
+
+            - word_splitter:
+                this is a WordSplitter, which is used to split the chinese words.
+        '''
+
         self.directory = directory
         self.word_splitter = word_splitter
         self.prefix = [placeholder] * window_size
@@ -95,13 +129,8 @@ class WordVector(dict):
         return self.__shape
 
 def testcases():
-    # word_vector = WordVector('./models/word_embedding.bin')
-    # print(word_vector['关掉'])
-    # print(word_vector['hfdsjkhfsjdkhjsdfhsdhf'])
-    # print(word_vector.get_shape())
-
     corpus_generator = CorpusGenerator(
-        './data/corpus/',
+        directory = './data/corpus/',
         window_size = 5,
         placeholder = 'UNK',
         word_splitter = WordSplitter()
