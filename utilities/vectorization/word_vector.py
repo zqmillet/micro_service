@@ -8,24 +8,23 @@ from utilities.vectorization import WordSplitter
 
 class CorpusGenerator(object):
     word_splitter = None
-    placeholder = None
-    window_size = None
+    prefix = None
+    suffix = None
 
     def __init__(self, directory, window_size, placeholder, word_splitter = None):
         self.directory = directory
         self.word_splitter = word_splitter
-        self.placeholder = placeholder
-        self.window_size = window_size
+        self.prefix = [placeholder] * window_size
+        self.suffix = [placeholder] * window_size
+
 
     def __iter__(self):
-        prefix = [self.placeholder] * self.window_size
-        suffix = [self.placeholder] * self.window_size
         for file_path in iterate_files(self.directory):
-            for line in iterate_lines(file_path, show_progress_bar = True):
+            for line in iterate_lines(file_path):
                 if self.word_splitter is None:
-                    yield prefix + line.split() + suffix
+                    yield self.prefix + line.split() + self.suffix
                 else:
-                    yield prefix + self.word_splitter.split(line) + suffix
+                    yield self.prefix + self.word_splitter.split(line) + self.suffix
 
 class WordVector(dict):
     __black_dictionary = None
@@ -58,7 +57,7 @@ class WordVector(dict):
                  workers                 = 4,
                  hierarchical_softmax    = True,
                  cbow_mean               = 1,
-                 iterations              = 100,
+                 iterations              = 500,
                  batch_words             = 10000):
 
         self.model = gensim.models.Word2Vec(
