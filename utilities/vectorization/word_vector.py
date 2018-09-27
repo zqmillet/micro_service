@@ -2,18 +2,28 @@ import gensim
 import numpy
 
 from utilities.system import iterate_files, iterate_lines
+from utilities.vectorization import WordSplitter
 
-class CorpusGenerator(object, word_splitter = None):
-    def __init__(self, directory):
+class CorpusGenerator(object):
+    word_splitter = None
+    placeholder = None
+    window_size = None
+
+    def __init__(self, directory, window_size, placeholder, word_splitter = None):
         self.directory = directory
+        self.word_splitter = word_splitter
+        self.placeholder = placeholder
+        self.window_size = window_size
 
     def __iter__(self):
+        prefix = [self.placeholder] * self.window_size
+        suffix = [self.placeholder] * self.window_size
         for file_path in iterate_files(self.directory):
             for line in iterate_lines(file_path):
-                if word_splitter is None:
-                    yield line.split()
+                if self.word_splitter is None:
+                    yield prefix + line.split() + suffix
                 else:
-                    yield word_splitter.split(line)
+                    yield prefix + self.word_splitter.split(line) + suffix
 
 class WordVector(dict):
     __black_dictionary = None
@@ -48,6 +58,7 @@ class WordVector(dict):
                  cbow_mean               = 1,
                  iterations              = 100,
                  batch_words             = 10000):
+
         self.model = gensim.models.Word2Vec(
             Corpus(directory),
             size           = vector_size,
@@ -83,10 +94,21 @@ class WordVector(dict):
         return self.__shape
 
 def testcases():
-    word_vector = WordVector('./models/word_embedding.bin')
-    print(word_vector['关掉'])
-    print(word_vector['hfdsjkhfsjdkhjsdfhsdhf'])
-    print(word_vector.get_shape())
+    # word_vector = WordVector('./models/word_embedding.bin')
+    # print(word_vector['关掉'])
+    # print(word_vector['hfdsjkhfsjdkhjsdfhsdhf'])
+    # print(word_vector.get_shape())
+
+    corpus_generator = CorpusGenerator(
+        './data/corpus/',
+        window_size = 5,
+        placeholder = 'UNK',
+        word_splitter = WordSplitter()
+    )
+
+    for sample in corpus_generator:
+        print(sample)
+        import pdb; pdb.set_trace()
 
 if __name__ == '__main__':
     testcases()
