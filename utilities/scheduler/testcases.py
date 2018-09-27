@@ -10,6 +10,11 @@ def testcases():
     def print_time():
         print(time.ctime())
 
+    def print_2333():
+        print(2333)
+
+    scheduler.add_task(print_2333, trigger = TRIGGER.CRON, second = '6,7,8,9,10')
+
     scheduler.start()
 
     while True:
