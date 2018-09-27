@@ -51,8 +51,11 @@ class CorpusGenerator(object):
         self.prefix = [placeholder] * window_size
         self.suffix = [placeholder] * window_size
 
-
     def __iter__(self):
+        '''
+        the function __iter__ of the class CorpusGenerator must be overloaded.
+        '''
+
         for file_path in iterate_files(self.directory):
             for line in iterate_lines(file_path):
                 if self.word_splitter is None:
@@ -61,12 +64,46 @@ class CorpusGenerator(object):
                     yield self.prefix + self.word_splitter.split(line) + self.suffix
 
 class WordVector(dict):
+    '''
+    this is a class to provide the training and searching of the word vector.
+
+    member variables:
+        - __black_dictionary:
+            if an unknown word is queried twice, the return values should be same.
+            this dictionary is used to record the random vectors of unknown words.
+
+        - __shape:
+            the shape of the word vector.
+
+        - __random_generator:
+            if an unknown word is queried, the WordVector will return a random vector,
+            the __random_generator is used to generate this random vector.
+
+        - __model:
+            this is the gensim model of the word vector.
+    '''
+
     __black_dictionary = None
     __shape = None
     __random_generator = None
     __model = None
 
     def __init__(self, model_file_path = None, random_generator = None):
+        '''
+        this is the constructor of the class WordVector.
+
+        parameters:
+            - model_file_path:
+                the path of the word embedding model file.
+                if the model_file_path is None, it will not load the model from file.
+
+            - random_generator:
+                this is a generator which can generate random vector.
+                the default random_generator is numpy.random.randn
+        '''
+
+        self.__random_generator = random_generator if not random_generator is None else numpy.random.randn
+
         if model_file_path is None:
             return
 
@@ -76,7 +113,6 @@ class WordVector(dict):
             self[word] = self.__model.wv.syn0[index]
         self.__black_dictionary = dict()
         self.__shape = self.__model.wv.syn0[0].shape
-        self.__random_generator = random_generator if not random_generator is None else numpy.random.randn
 
     def training(self,
                  corpus_generator,
@@ -93,6 +129,60 @@ class WordVector(dict):
                  cbow_mean               = 1,
                  iterations              = 500,
                  batch_words             = 10000):
+
+        '''
+        this function is used to train a word vector from corpus.
+
+        parameters:
+            - corpus_generator:
+                this is a CorpusGenerator.
+
+            - algorithm:
+                training algorithm: skip-gram or cbow.
+
+            - vector_size:
+                dimensionality of the word vectors.
+
+            - alpha:
+                the initial learning rate.
+
+            - seed:
+                seed for the random number generator, which is used to generate the initial value.
+
+            - window_size:
+                maximum distance between the current and predicted word within a sentence.
+
+            - minimum_count:
+                ignores all words with total frequency lower than this.
+
+            - maximum_vocabulary_size:
+                limits the RAM during vocabulary building.
+                if there are more unique words than this, then prune the infrequent ones.
+                every 10 million word types need about 1GB of RAM.
+                set to None for no limit.
+
+            - sample:
+                the threshold for configuring which higher-frequency words are randomly downsampled, useful range is (0, 1e-5).
+
+            - workers:
+                use these many worker threads to train the model.
+
+            - hierarchical_softmax:
+                if True, hierarchical softmax will be used for model training.
+                if False, and negative is non-zero, negative sampling will be used.
+
+            - cbow_mean:
+                 if 0, use the sum of the context word vectors.
+                 if 1, use the mean, only applies when cbow is used.
+
+            - iterations:
+                number of iterations (epochs) over the corpus.
+
+            - batch_words:
+                target size (in words) for batches of examples passed to worker threads (and thus cython routines).
+                larger batches will be passed if individual texts are longer than 10,000 words,
+                but the standard cython code truncates to that maximum.
+        '''
 
         self.model = gensim.models.Word2Vec(
             corpus_generator,
