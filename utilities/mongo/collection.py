@@ -14,7 +14,7 @@ class MongoCollection:
         return self.__collection.find(condition)
 
     def insert(self, data):
-        self.__collection.insert_one(data)
+        self.__collection.insert(data)
 
     def clear_items(self):
         self.__collection.remove()

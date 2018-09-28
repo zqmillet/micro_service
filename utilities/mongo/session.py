@@ -21,10 +21,6 @@ class MongoSession:
     def fetch_database(self, database_name):
         return MongoDatabase(self.__client[database_name], self)
 
-    def iterate_item(self, database_name, collection_name):
-        for item in self[database_name][collection_name]:
-            yield item
-
     def drop_database(self, database_name):
         self.__client.drop_database(database_name)
 

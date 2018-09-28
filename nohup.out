@@ -1,0 +1,117 @@
+2018-09-28T16:26:52.910+0800 I CONTROL  [main] Automatically disabling TLS 1.0, to force-enable TLS 1.0 specify --sslDisabledProtocols 'none'
+2018-09-28T16:26:52.916+0800 I CONTROL  [initandlisten] MongoDB starting : pid=30488 port=27017 dbpath=/data/db 64-bit host=SZX1000430757
+2018-09-28T16:26:52.916+0800 I CONTROL  [initandlisten] db version v4.0.2
+2018-09-28T16:26:52.916+0800 I CONTROL  [initandlisten] git version: fc1573ba18aee42f97a3bb13b67af7d837826b47
+2018-09-28T16:26:52.916+0800 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.0.2g  1 Mar 2016
+2018-09-28T16:26:52.916+0800 I CONTROL  [initandlisten] allocator: tcmalloc
+2018-09-28T16:26:52.916+0800 I CONTROL  [initandlisten] modules: none
+2018-09-28T16:26:52.916+0800 I CONTROL  [initandlisten] build environment:
+2018-09-28T16:26:52.916+0800 I CONTROL  [initandlisten]     distmod: ubuntu1604
+2018-09-28T16:26:52.916+0800 I CONTROL  [initandlisten]     distarch: x86_64
+2018-09-28T16:26:52.916+0800 I CONTROL  [initandlisten]     target_arch: x86_64
+2018-09-28T16:26:52.916+0800 I CONTROL  [initandlisten] options: { config: "/etc/mongodb.conf", net: { bindIp: "0.0.0.0", port: 27017 }, security: { authorization: "enabled" } }
+2018-09-28T16:26:52.916+0800 I STORAGE  [initandlisten] Detected data files in /data/db created by the 'wiredTiger' storage engine, so setting the active storage engine to 'wiredTiger'.
+2018-09-28T16:26:52.916+0800 I STORAGE  [initandlisten] 
+2018-09-28T16:26:52.916+0800 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+2018-09-28T16:26:52.916+0800 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+2018-09-28T16:26:52.916+0800 I STORAGE  [initandlisten] wiredtiger_open config: create,cache_size=7503M,session_max=20000,eviction=(threads_min=4,threads_max=4),config_base=false,statistics=(fast),log=(enabled=true,archive=true,path=journal,compressor=snappy),file_manager=(close_idle_time=100000),statistics_log=(wait=0),verbose=(recovery_progress),
+2018-09-28T16:26:54.255+0800 I STORAGE  [initandlisten] WiredTiger message [1538123214:255948][30488:0x7f411703ca00], txn-recover: Main recovery loop: starting at 7/11392
+2018-09-28T16:26:54.382+0800 I STORAGE  [initandlisten] WiredTiger message [1538123214:382253][30488:0x7f411703ca00], txn-recover: Recovering log 7 through 8
+2018-09-28T16:26:54.462+0800 I STORAGE  [initandlisten] WiredTiger message [1538123214:462662][30488:0x7f411703ca00], txn-recover: Recovering log 8 through 8
+2018-09-28T16:26:54.528+0800 I STORAGE  [initandlisten] WiredTiger message [1538123214:528440][30488:0x7f411703ca00], txn-recover: Set global recovery timestamp: 0
+2018-09-28T16:26:54.544+0800 I RECOVERY [initandlisten] WiredTiger recoveryTimestamp. Ts: Timestamp(0, 0)
+2018-09-28T16:26:54.892+0800 I CONTROL  [initandlisten] ** WARNING: You are running this process as the root user, which is not recommended.
+2018-09-28T16:26:54.892+0800 I CONTROL  [initandlisten] 
+2018-09-28T16:26:54.892+0800 I CONTROL  [initandlisten] 
+2018-09-28T16:26:54.892+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
+2018-09-28T16:26:54.892+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
+2018-09-28T16:26:54.892+0800 I CONTROL  [initandlisten] 
+2018-09-28T16:26:54.892+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/defrag is 'always'.
+2018-09-28T16:26:54.892+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
+2018-09-28T16:26:54.892+0800 I CONTROL  [initandlisten] 
+2018-09-28T16:26:54.939+0800 I FTDC     [initandlisten] Initializing full-time diagnostic data capture with directory '/data/db/diagnostic.data'
+2018-09-28T16:26:54.940+0800 I NETWORK  [initandlisten] waiting for connections on port 27017
+2018-09-28T16:26:57.930+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:53962 #1 (1 connection now open)
+2018-09-28T16:26:57.930+0800 I NETWORK  [conn1] received client metadata from 127.0.0.1:53962 conn1: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "4.0.2" }, os: { type: "Linux", name: "Ubuntu", architecture: "x86_64", version: "16.04" } }
+2018-09-28T16:26:57.935+0800 I NETWORK  [conn1] end connection 127.0.0.1:53962 (0 connections now open)
+2018-09-28T16:27:36.360+0800 I NETWORK  [listener] connection accepted from 10.65.86.139:55219 #2 (1 connection now open)
+2018-09-28T16:27:36.433+0800 I ACCESS   [conn2] Successfully authenticated as principal testcasebot on admin
+2018-09-28T16:27:36.443+0800 I NETWORK  [listener] connection accepted from 10.65.86.139:55220 #3 (2 connections now open)
+2018-09-28T16:27:36.480+0800 I ACCESS   [conn3] Successfully authenticated as principal testcasebot on admin
+2018-09-28T16:27:42.086+0800 I COMMAND  [conn3] dropDatabase config - starting
+2018-09-28T16:27:42.086+0800 I COMMAND  [conn3] dropDatabase config - dropping 0 collections
+2018-09-28T16:27:42.089+0800 I COMMAND  [conn3] dropDatabase config - finished
+2018-09-28T16:27:51.362+0800 I COMMAND  [conn3] dropDatabase testcasebot - starting
+2018-09-28T16:27:51.362+0800 I COMMAND  [conn3] dropDatabase testcasebot - dropping 0 collections
+2018-09-28T16:27:51.855+0800 I COMMAND  [conn3] dropDatabase testcasebot - finished
+2018-09-28T16:27:51.855+0800 I COMMAND  [conn3] command testcasebot command: dropDatabase { dropDatabase: 1, $readPreference: { mode: "secondaryPreferred" }, $db: "testcasebot" } numYields:0 reslen:78 locks:{ Global: { acquireCount: { r: 2, w: 1, W: 1 } }, Database: { acquireCount: { W: 1 } } } protocol:op_query 493ms
+2018-09-28T16:27:55.304+0800 I COMMAND  [conn3] dropDatabase local - starting
+2018-09-28T16:27:55.305+0800 I COMMAND  [conn3] dropDatabase local - dropping 0 collections
+2018-09-28T16:27:55.306+0800 I COMMAND  [conn3] dropDatabase local - finished
+2018-09-28T16:28:41.892+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:53964 #4 (3 connections now open)
+2018-09-28T16:28:41.893+0800 I NETWORK  [conn4] received client metadata from 127.0.0.1:53964 conn4: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "4.0.2" }, os: { type: "Linux", name: "Ubuntu", architecture: "x86_64", version: "16.04" } }
+2018-09-28T16:29:59.546+0800 I NETWORK  [conn4] end connection 127.0.0.1:53964 (2 connections now open)
+2018-09-28T16:30:12.369+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:53966 #5 (3 connections now open)
+2018-09-28T16:30:12.370+0800 I NETWORK  [conn5] received client metadata from 127.0.0.1:53966 conn5: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "4.0.2" }, os: { type: "Linux", name: "Ubuntu", architecture: "x86_64", version: "16.04" } }
+2018-09-28T16:30:12.373+0800 I ACCESS   [conn5] Supported SASL mechanisms requested for unknown user 'testcasebot@test'
+2018-09-28T16:30:12.374+0800 I ACCESS   [conn5] SASL SCRAM-SHA-1 authentication failed for testcasebot on test from client 127.0.0.1:53966 ; UserNotFound: Could not find user testcasebot@test
+2018-09-28T16:30:12.419+0800 I NETWORK  [conn5] end connection 127.0.0.1:53966 (2 connections now open)
+2018-09-28T16:30:22.116+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:53968 #6 (3 connections now open)
+2018-09-28T16:30:22.117+0800 I NETWORK  [conn6] received client metadata from 127.0.0.1:53968 conn6: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "4.0.2" }, os: { type: "Linux", name: "Ubuntu", architecture: "x86_64", version: "16.04" } }
+2018-09-28T16:30:22.119+0800 I ACCESS   [conn6] Supported SASL mechanisms requested for unknown user 'testcasebot@test'
+2018-09-28T16:30:22.121+0800 I NETWORK  [conn6] end connection 127.0.0.1:53968 (2 connections now open)
+2018-09-28T16:30:37.172+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:53970 #7 (3 connections now open)
+2018-09-28T16:30:37.172+0800 I NETWORK  [conn7] received client metadata from 127.0.0.1:53970 conn7: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "4.0.2" }, os: { type: "Linux", name: "Ubuntu", architecture: "x86_64", version: "16.04" } }
+2018-09-28T16:30:38.795+0800 I NETWORK  [conn7] end connection 127.0.0.1:53970 (2 connections now open)
+2018-09-28T16:30:49.414+0800 I NETWORK  [listener] connection accepted from 10.65.86.139:55311 #8 (3 connections now open)
+2018-09-28T16:30:49.436+0800 I ACCESS   [conn8] Successfully authenticated as principal testcasebot on admin
+2018-09-28T16:30:59.328+0800 I COMMAND  [conn8] CMD: drop admin.Input_Behavior
+2018-09-28T16:30:59.328+0800 I STORAGE  [conn8] Finishing collection drop for admin.Input_Behavior (90b8e861-2685-4c65-a6f0-cfda185fc2a9).
+2018-09-28T16:30:59.331+0800 I COMMAND  [conn8] CMD: drop admin.ModelBehavior
+2018-09-28T16:30:59.331+0800 I STORAGE  [conn8] Finishing collection drop for admin.ModelBehavior (cd0493b1-7ae8-45ed-85d5-b8c966eb3ba2).
+2018-09-28T16:30:59.406+0800 I COMMAND  [conn8] CMD: drop admin.StepByStep_Recommend
+2018-09-28T16:30:59.406+0800 I STORAGE  [conn8] Finishing collection drop for admin.StepByStep_Recommend (b15a702f-4ac7-48be-b669-99a95045c325).
+2018-09-28T16:30:59.426+0800 I COMMAND  [conn8] CMD: drop admin.test
+2018-09-28T16:30:59.426+0800 I STORAGE  [conn8] Finishing collection drop for admin.test (46480962-dc9c-4085-b52a-c9e48ca1bafa).
+2018-09-28T16:31:33.427+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:53974 #9 (4 connections now open)
+2018-09-28T16:31:33.428+0800 I NETWORK  [conn9] received client metadata from 127.0.0.1:53974 conn9: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "4.0.2" }, os: { type: "Linux", name: "Ubuntu", architecture: "x86_64", version: "16.04" } }
+2018-09-28T16:31:33.482+0800 I ACCESS   [conn9] Successfully authenticated as principal testcasebot on admin
+2018-09-28T16:31:54.941+0800 I STORAGE  [LogicalSessionCacheRefresh] createCollection: config.system.sessions with generated UUID: 4087389e-304d-4633-8efe-487f5913424a
+2018-09-28T16:31:54.961+0800 I INDEX    [LogicalSessionCacheRefresh] build index on: config.system.sessions properties: { v: 2, key: { lastUse: 1 }, name: "lsidTTLIndex", ns: "config.system.sessions", expireAfterSeconds: 1800 }
+2018-09-28T16:31:54.961+0800 I INDEX    [LogicalSessionCacheRefresh] 	 building index using bulk method; build may temporarily use up to 500 megabytes of RAM
+2018-09-28T16:31:54.963+0800 I INDEX    [LogicalSessionCacheRefresh] build index done.  scanned 0 total records. 0 secs
+2018-09-28T16:31:56.174+0800 I COMMAND  [conn9] command admin.$cmd appName: "MongoDB Shell" command: createUser { createUser: "admin", pwd: "xxx", roles: [ { role: "root", db: "admin" } ], digestPassword: true, writeConcern: { w: "majority", wtimeout: 600000.0 }, lsid: { id: UUID("a526b4c2-feb8-454f-99f2-ab637a0c43d0") }, $db: "admin" } numYields:0 reslen:38 locks:{ Global: { acquireCount: { r: 2, w: 2 } }, Database: { acquireCount: { W: 2 } }, Collection: { acquireCount: { w: 2 } } } protocol:op_msg 140ms
+2018-09-28T16:32:01.264+0800 I NETWORK  [conn9] end connection 127.0.0.1:53974 (3 connections now open)
+2018-09-28T16:32:05.952+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:53978 #10 (4 connections now open)
+2018-09-28T16:32:05.963+0800 I ACCESS   [conn10] Successfully authenticated as principal admin on admin
+2018-09-28T16:32:06.012+0800 I NETWORK  [conn10] end connection 127.0.0.1:53978 (3 connections now open)
+2018-09-28T16:32:20.063+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:53980 #11 (4 connections now open)
+2018-09-28T16:32:20.078+0800 I ACCESS   [conn11] Successfully authenticated as principal admin on admin
+2018-09-28T16:32:20.122+0800 I NETWORK  [conn11] end connection 127.0.0.1:53980 (3 connections now open)
+2018-09-28T16:38:10.038+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:54016 #12 (4 connections now open)
+2018-09-28T16:38:10.049+0800 I ACCESS   [conn12] Successfully authenticated as principal admin on admin
+2018-09-28T16:38:43.897+0800 I NETWORK  [conn12] end connection 127.0.0.1:54016 (3 connections now open)
+2018-09-28T16:38:51.036+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:54020 #13 (4 connections now open)
+2018-09-28T16:38:51.047+0800 I ACCESS   [conn13] Successfully authenticated as principal admin on admin
+2018-09-28T16:38:51.048+0800 I STORAGE  [conn13] createCollection: new_database.new_collection with generated UUID: a391cb8a-4820-4105-b714-cf2ef7cb0d90
+2018-09-28T16:38:51.072+0800 I COMMAND  [conn13] dropDatabase new_database - starting
+2018-09-28T16:38:51.073+0800 I COMMAND  [conn13] dropDatabase new_database - dropping 0 collections
+2018-09-28T16:38:51.075+0800 I COMMAND  [conn13] dropDatabase new_database - finished
+2018-09-28T16:38:51.075+0800 I NETWORK  [conn13] end connection 127.0.0.1:54020 (3 connections now open)
+2018-09-28T16:48:43.701+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:54052 #14 (4 connections now open)
+2018-09-28T16:48:43.713+0800 I ACCESS   [conn14] Successfully authenticated as principal admin on admin
+2018-09-28T16:48:43.714+0800 I STORAGE  [conn14] createCollection: new_database.new_collection with generated UUID: 68cb7f6e-d411-4fe9-bf2d-9f24a66239e2
+2018-09-28T16:48:43.778+0800 I NETWORK  [conn14] end connection 127.0.0.1:54052 (3 connections now open)
+2018-09-28T16:49:56.835+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:54058 #15 (4 connections now open)
+2018-09-28T16:49:56.846+0800 I ACCESS   [conn15] Successfully authenticated as principal admin on admin
+2018-09-28T16:49:56.864+0800 I COMMAND  [conn15] dropDatabase new_database - starting
+2018-09-28T16:49:56.864+0800 I COMMAND  [conn15] dropDatabase new_database - dropping 0 collections
+2018-09-28T16:49:56.866+0800 I COMMAND  [conn15] dropDatabase new_database - finished
+2018-09-28T16:49:56.866+0800 I NETWORK  [conn15] end connection 127.0.0.1:54058 (3 connections now open)
+2018-09-28T16:50:00.712+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:54060 #16 (4 connections now open)
+2018-09-28T16:50:00.723+0800 I ACCESS   [conn16] Successfully authenticated as principal admin on admin
+2018-09-28T16:50:00.724+0800 I STORAGE  [conn16] createCollection: new_database.new_collection with generated UUID: 1ca6c7ac-d6ab-49d4-88a6-0c16018b9863
+2018-09-28T16:50:00.749+0800 I COMMAND  [conn16] dropDatabase new_database - starting
+2018-09-28T16:50:00.749+0800 I COMMAND  [conn16] dropDatabase new_database - dropping 0 collections
+2018-09-28T16:50:00.750+0800 I COMMAND  [conn16] dropDatabase new_database - finished
+2018-09-28T16:50:00.751+0800 I NETWORK  [conn16] end connection 127.0.0.1:54060 (3 connections now open)

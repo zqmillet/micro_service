@@ -18,16 +18,16 @@ def testcases():
         )
 
     # print the new items.
-    for item in mongo_session.iterate_item(database_name = 'new_database', collection_name = 'new_collection'):
+    for item in mongo_session['new_database']['new_collection']:
         print(item)
 
     # change the name of the new items, and add new property for each item.
-    for index, item in enumerate(mongo_session.iterate_item(database_name = 'new_database', collection_name = 'new_collection')):
+    for index, item in enumerate(mongo_session['new_database']['new_collection']):
         item['name'] = 'item {index}'.format(index = index)
         item['height'] = index
 
     # print the new items.
-    for item in mongo_session.iterate_item(database_name = 'new_database', collection_name = 'new_collection'):
+    for item in mongo_session['new_database']['new_collection']:
         print(item)
 
     # drop the database.
