@@ -6,7 +6,7 @@ import json
 from utilities.vectorization import WordSplitter, CorpusGenerator
 from constants import FILE_MODE
 
-class WordVector(dict):
+class WordVector:
     '''
     this is a class to provide the training and searching of the word vector.
 
@@ -25,6 +25,8 @@ class WordVector(dict):
     __black_dictionary = None
     __shape = None
     __training_parameters = None
+    __matrix = None
+    __word_index_dictionary = None
 
     def __init__(self, model_file_path = None):
         '''
@@ -147,9 +149,8 @@ class WordVector(dict):
         self.load_from_gensim_model(model)
 
     def load_from_gensim_model(self, gensim_model):
-        for word, information in gensim_model.wv.vocab.items():
-            index = information.index
-            self[word] = gensim_model.wv.syn0[index]
+        self.__word_index_dictionary = {word: information.index for word, information in gensim_model.wv.vocab.items()}
+        self.__matrix = gensim_model.wv.syn0
         self.__black_dictionary = dict()
         self.__shape = gensim_model.wv.syn0[0].shape
 
@@ -157,7 +158,6 @@ class WordVector(dict):
         with open(model_file_path, FILE_MODE.BINARY_READ) as file:
             word_vector = pickle.load(file)
             self.__dict__ = word_vector.__dict__
-            self.update(**word_vector)
 
     def get_training_parameters(self):
         return self.__training_parameters
@@ -167,8 +167,8 @@ class WordVector(dict):
             file.write(pickle.dumps(self))
 
     def __getitem__(self, word):
-        if word in self:
-            return self.get(word)
+        if word in self.__word_index_dictionary:
+            return self.__matrix[self.__word_index_dictionary[word]]
 
         if word in self.__black_dictionary:
             return self.__black_dictionary.get(word)

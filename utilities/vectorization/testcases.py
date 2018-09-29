@@ -6,6 +6,9 @@ import os
 
 from utilities.vectorization import WordVector, CorpusGenerator, WordSplitter
 
+import logging
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+
 def testcases():
     word_vector = WordVector()
     word_splitter = WordSplitter()
@@ -17,11 +20,11 @@ def testcases():
         window_size = window_size,
         placeholder = 'UNK')
 
-    model_file_path = './models/' + str(uuid.uuid1()) + '.bin'
+    model_file_path = './models/word_embedding.bin'
 
     word_vector.training(
         corpus_generator,
-        iterations = 20,
+        iterations = 2,
         window_size = window_size
     )
 
