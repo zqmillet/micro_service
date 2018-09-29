@@ -1,0 +1,6 @@
+{
+    "word_vector_training": {
+        "main_title": "micro_service",
+        "flow_type": "word_vector"
+    }
+}
