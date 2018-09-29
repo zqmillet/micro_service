@@ -1,8 +1,10 @@
 import gensim
 import numpy
+import pickle
 
 from utilities.system import iterate_files, iterate_lines
 from utilities.vectorization import WordSplitter
+from constants import FILE_MODE
 
 class CorpusGenerator(object):
     '''
@@ -81,6 +83,8 @@ class WordVector(dict):
     __black_dictionary = None
     __shape = None
     __random_generator = None
+    __training_parameters = None
+    __corpus_source = None
 
     def __init__(self, model_file_path = None, random_generator = None):
         '''
@@ -195,8 +199,15 @@ class WordVector(dict):
             batch_words    = batch_words
         )
 
+    def load_from_pickle(self, model_file_path):
+        with open(model_file_path, FILE_MODE.BINARY_READ) as file:
+            word_vector = pickle.load(file)
+            self.__dict__ = word_vector.__dict__
+            self.update(**word_vector)
+
     def save(self, model_file_path):
-        self.model.save(model_file_path)
+        with open(model_file_path, FILE_MODE.BINARY_WRITE) as file:
+            file.write(pickle.dumps(self))
 
     def __getitem__(self, word):
         if word in self:

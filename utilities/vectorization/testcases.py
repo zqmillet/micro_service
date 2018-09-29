@@ -1,19 +1,12 @@
-import logging
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+import numpy
+import pickle
 
 from utilities.vectorization import WordVector, CorpusGenerator, WordSplitter
 
 def testcases():
-    corpus_generator = CorpusGenerator(
-        directory = './data/corpus/',
-        window_size = 5,
-        placeholder = 'UNK',
-        word_splitter = WordSplitter()
-    )
-
     word_vector = WordVector()
-    word_vector.training(corpus_generator)
-    word_vector.save('./models/word_embedding.bin')
+    word_vector.load_from_pickle('./models/word_embedding.pkl')
+    # word_vector.save('./models/word_embedding.pkl')
 
 if __name__ == '__main__':
     testcases()
