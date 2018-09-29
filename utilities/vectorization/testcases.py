@@ -10,17 +10,19 @@ def testcases():
     word_vector = WordVector()
     word_splitter = WordSplitter()
 
+    window_size = 5
     corpus_generator = CorpusGenerator(
         './data/small_corpus',
         word_splitter = word_splitter,
-        window_size = 5,
+        window_size = window_size,
         placeholder = 'UNK')
 
     model_file_path = './models/' + str(uuid.uuid1()) + '.bin'
 
     word_vector.training(
         corpus_generator,
-        iterations = 1
+        iterations = 20,
+        window_size = window_size
     )
 
     word_vector.save(model_file_path)
