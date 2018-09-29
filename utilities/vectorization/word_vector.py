@@ -1,67 +1,10 @@
 import gensim
 import numpy
 import pickle
+import json
 
-from utilities.system import iterate_files, iterate_lines
-from utilities.vectorization import WordSplitter
+from utilities.vectorization import WordSplitter, CorpusGenerator
 from constants import FILE_MODE
-
-class CorpusGenerator(object):
-    '''
-    this class is a generator which can iterate corpus in a directory.
-
-    member variables:
-        - word_splitter:
-            this is a WordSplitter, which is used to split the chinese words.
-            if word_splitter is None, the word will be splitted by space.
-
-        - prefix:
-            several placeholders at the begin of a line.
-
-        - suffix:
-            several placeholders at the end of a line.
-    '''
-
-    word_splitter = None
-    prefix = None
-    suffix = None
-
-    def __init__(self, directory, window_size, placeholder, word_splitter = None):
-        '''
-        this is the constructor of the class CorpusGenerator.
-
-        parameters:
-            - directory:
-                this is the directory in which there are corpus files.
-
-            - window_size:
-                this is the windows size of the ngram.
-                if window_size = 3, the line will be expanded as:
-                    [placeholder, placeholder, placeholder, word, word, ..., word, placeholder, placeholder, placeholder]
-
-            - placeholder:
-                the placeholder for the unknown words.
-
-            - word_splitter:
-                this is a WordSplitter, which is used to split the chinese words.
-        '''
-
-        self.directory = directory
-        self.word_splitter = word_splitter
-        self.prefix = [placeholder] * window_size
-        self.suffix = [placeholder] * window_size
-
-    def __iter__(self):
-        '''
-        the function __iter__ of the class CorpusGenerator must be overloaded.
-        '''
-
-        for file_path in iterate_files(self.directory):
-            for line in iterate_lines(file_path):
-                if self.word_splitter is None:
-                    yield self.prefix + line.split() + self.suffix
-                else:
-                    yield self.prefix + self.word_splitter.split(line) + self.suffix
 
 class WordVector(dict):
     '''
@@ -74,19 +17,13 @@ class WordVector(dict):
 
         - __shape:
             the shape of the word vector.
-
-        - __random_generator:
-            if an unknown word is queried, the WordVector will return a random vector,
-            the __random_generator is used to generate this random vector.
     '''
 
     __black_dictionary = None
     __shape = None
-    __random_generator = None
     __training_parameters = None
-    __corpus_source = None
 
-    def __init__(self, model_file_path = None, random_generator = None):
+    def __init__(self, model_file_path = None):
         '''
         this is the constructor of the class WordVector.
 
@@ -94,23 +31,12 @@ class WordVector(dict):
             - model_file_path:
                 the path of the word embedding model file.
                 if the model_file_path is None, it will not load the model from file.
-
-            - random_generator:
-                this is a generator which can generate random vector.
-                the default random_generator is numpy.random.randn
         '''
-
-        self.__random_generator = random_generator if not random_generator is None else numpy.random.randn
 
         if model_file_path is None:
             return
 
-        model = gensim.models.Word2Vec.load(model_file_path)
-        for word, information in model.wv.vocab.items():
-            index = information.index
-            self[word] = model.wv.syn0[index]
-        self.__black_dictionary = dict()
-        self.__shape = model.wv.syn0[0].shape
+        self.load_from_pickle(model_file_path)
 
     def training(self,
                  corpus_generator,
@@ -125,7 +51,7 @@ class WordVector(dict):
                  workers                 = 4,
                  hierarchical_softmax    = True,
                  cbow_mean               = 1,
-                 iterations              = 500,
+                 iterations              = 10,
                  batch_words             = 10000):
 
         '''
@@ -182,7 +108,24 @@ class WordVector(dict):
                 but the standard cython code truncates to that maximum.
         '''
 
-        self.model = gensim.models.Word2Vec(
+        self.__training_parameters = {
+            'corpus_list'            : corpus_generator.get_corpus_list(),
+            'algorithm'              : algorithm,
+            'vector_size'            : vector_size,
+            'alpha'                  : alpha,
+            'seed'                   : seed,
+            'window_size'            : window_size,
+            'minimum_count'          : minimum_count,
+            'maximum_vocabulary_size': maximum_vocabulary_size,
+            'sample'                 : sample,
+            'workers'                : workers,
+            'hierarchical_softmax'   : hierarchical_softmax,
+            'cbow_mean'              : cbow_mean,
+            'iterations'             : iterations,
+            'batch_words'            : batch_words
+        }
+
+        model = gensim.models.Word2Vec(
             corpus_generator,
             size           = vector_size,
             alpha          = alpha,
@@ -198,12 +141,23 @@ class WordVector(dict):
             iter           = iterations,
             batch_words    = batch_words
         )
+        self.load_from_gensim_model(model)
+
+    def load_from_gensim_model(self, gensim_model):
+        for word, information in gensim_model.wv.vocab.items():
+            index = information.index
+            self[word] = gensim_model.wv.syn0[index]
+        self.__black_dictionary = dict()
+        self.__shape = gensim_model.wv.syn0[0].shape
 
     def load_from_pickle(self, model_file_path):
         with open(model_file_path, FILE_MODE.BINARY_READ) as file:
             word_vector = pickle.load(file)
             self.__dict__ = word_vector.__dict__
             self.update(**word_vector)
+
+    def get_training_parameters(self):
+        return self.__training_parameters
 
     def save(self, model_file_path):
         with open(model_file_path, FILE_MODE.BINARY_WRITE) as file:
@@ -216,7 +170,7 @@ class WordVector(dict):
         if word in self.__black_dictionary:
             return self.__black_dictionary.get(word)
 
-        vector = self.__random_generator(*self.__shape)
+        vector = numpy.random.randn(*self.__shape)
         self.__black_dictionary[word] = vector
         return vector
 

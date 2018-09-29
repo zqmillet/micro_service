@@ -1,2 +1,3 @@
 from .word_splitter import WordSplitter
-from .word_vector import WordVector, CorpusGenerator
+from .corpus_generator import CorpusGenerator
+from .word_vector import WordVector
