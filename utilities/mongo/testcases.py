@@ -4,8 +4,8 @@ from exceptions import ConnectionRefusedError, ConnectionTimeOut
 def testcases():
     try:
         mongo_session = MongoSession(
-            host = '8.8.8.8', # wrong host.
-            port = 27017,
+            host     = '8.8.8.8', # wrong host.
+            port     = 27017,
             username = 'admin',
             password = 'admin'
         )
@@ -14,8 +14,8 @@ def testcases():
 
     try:
         mongo_session = MongoSession(
-            host = 'localhost',
-            port = 2701, # wrong port.
+            host     = 'localhost',
+            port     = 2701, # wrong port.
             username = 'admin',
             password = 'admin'
         )
@@ -24,10 +24,10 @@ def testcases():
 
     try:
         mongo_session = MongoSession(
-            host = 'localhost',
-            port = 27017,
-            username = 'wrong username',
-            password = 'wrong password'
+            host     = 'localhost',
+            port     = 27017,
+            username = 'username', # wrong username.
+            password = 'password' # wrong password.
         )
     except Exception as e:
         print(e)

@@ -5,16 +5,14 @@ from exceptions import ConnectionRefusedError, ConnectionTimeOut, Authentication
 
 class MongoSession:
     __client = None
+    __database_type = 'mongo'
+    __exception_eigen_dictionary = {
+        'connection refused':    ConnectionRefusedError,
+        'timed out':             ConnectionTimeOut,
+        'authentication failed': AuthenticationError
+    }
 
-    def __init__(self, host, port, username, password):
-        # self.__client = pymongo.MongoClient(
-        #     'mongodb://{username}:{password}@{host}:{port}'.format(
-        #         host     = host,
-        #         port     = port,
-        #         username = username,
-        #         password = password
-        #     )
-        # )
+    def __init__(self, host, port, username, password, timeout = 1000, maximum_retries = 10):
         try:
             self.__client = pymongo.MongoClient(
                 'mongodb://{username}:{password}@{host}:{port}'.format(
@@ -22,16 +20,15 @@ class MongoSession:
                     port     = port,
                     username = username,
                     password = password
-                )
+                ),
+                connectTimeoutMS = timeout
             )
-        except pymongo.errors.ConnectionFailure as e:
-            if 'Connection refused' in str(e):
-                raise ConnectionRefusedError(database_type = 'mongo', host = host, port = port)
-            elif 'timed out' in str(e):
-                raise ConnectionTimeOut(database_type = 'mongo', host = host, port = port)
-        except pymongo.errors.ConfigurationError as e:
-            if 'Authentication failed' in str(e):
-                raise AuthenticationError(database_type = 'mongo', host = host, port = port)
+        except Exception as e:
+            for eigen, exception in self.__exception_eigen_dictionary.items():
+                if eigen in str(e).lower():
+                    raise exception(database_type = self.__database_type, host = host, port = port)
+            else:
+                print(e)
 
     def fetch_database_name_list(self):
         return self.__client.database_names()
