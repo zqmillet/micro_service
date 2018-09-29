@@ -5,11 +5,13 @@ import uuid
 import os
 
 from utilities.vectorization import WordVector, CorpusGenerator, WordSplitter
-
-import logging
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+from utilities.logger import Logger
+from utilities.configuration import Configuration
 
 def testcases():
+    configuration = Configuration('./config/logging.json')
+    logger = Logger(**configuration.word_vector_training)
+
     word_vector = WordVector()
     word_splitter = WordSplitter()
 
@@ -24,6 +26,7 @@ def testcases():
 
     word_vector.training(
         corpus_generator,
+        logger = logger,
         iterations = 2,
         window_size = window_size
     )

@@ -45,6 +45,7 @@ class WordVector:
 
     def training(self,
                  corpus_generator,
+                 logger                  = None,
                  algorithm               = 'cbow',
                  vector_size             = 128,
                  alpha                   = 0.025,
@@ -129,6 +130,10 @@ class WordVector:
             'iterations'             : iterations,
             'batch_words'            : batch_words
         }
+
+        if not logger is None:
+            gensim.models.word2vec.logger = logger
+            gensim.models.base_any2vec.logger = logger
 
         model = gensim.models.Word2Vec(
             corpus_generator,
