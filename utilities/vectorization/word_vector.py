@@ -17,6 +17,9 @@ class WordVector(dict):
 
         - __shape:
             the shape of the word vector.
+
+        - __training_parameters:
+            a dictionary to record the training paramenter.
     '''
 
     __black_dictionary = None
