@@ -1,7 +1,5 @@
 import gensim
 import numpy
-import logging
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 from utilities.system import iterate_files, iterate_lines
 from utilities.vectorization import WordSplitter
@@ -78,15 +76,11 @@ class WordVector(dict):
         - __random_generator:
             if an unknown word is queried, the WordVector will return a random vector,
             the __random_generator is used to generate this random vector.
-
-        - __model:
-            this is the gensim model of the word vector.
     '''
 
     __black_dictionary = None
     __shape = None
     __random_generator = None
-    __model = None
 
     def __init__(self, model_file_path = None, random_generator = None):
         '''
@@ -107,12 +101,12 @@ class WordVector(dict):
         if model_file_path is None:
             return
 
-        self.__model = gensim.models.Word2Vec.load(model_file_path)
-        for word, information in self.__model.wv.vocab.items():
+        model = gensim.models.Word2Vec.load(model_file_path)
+        for word, information in model.wv.vocab.items():
             index = information.index
-            self[word] = self.__model.wv.syn0[index]
+            self[word] = model.wv.syn0[index]
         self.__black_dictionary = dict()
-        self.__shape = self.__model.wv.syn0[0].shape
+        self.__shape = model.wv.syn0[0].shape
 
     def training(self,
                  corpus_generator,
@@ -217,18 +211,3 @@ class WordVector(dict):
 
     def get_shape(self):
         return self.__shape
-
-def testcases():
-    corpus_generator = CorpusGenerator(
-        directory = './data/corpus/',
-        window_size = 5,
-        placeholder = 'UNK',
-        word_splitter = WordSplitter()
-    )
-
-    word_vector = WordVector()
-    word_vector.training(corpus_generator)
-    word_vector.save('./models/word_embedding.bin')
-
-if __name__ == '__main__':
-    testcases()
