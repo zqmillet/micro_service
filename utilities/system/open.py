@@ -20,16 +20,16 @@ class File(object):
 
     def read(self):
         size = self.__size // 100
-        part_list = list()
+        data = ''
         while True:
             part = self.__binary_file.read(size)
-            part_list.append(part)
+            data += part.decode(ENCODE.UTF8)
             length = len(part)
             self.__progress_bar.update(length)
             if not length:
                 break
 
-        return b''.join(part_list).decode(ENCODE.UTF8)
+        return data
 
     def __enter__(self):
         return self
@@ -48,7 +48,7 @@ def open(file_path, *args, **kwargs):
 
 def testcases():
     from constants import FILE_MODE, ENCODE
-    with open('./data/corpus/zhwiki-latest-pages-articles.xml', FILE_MODE.READ, encoding = ENCODE.UTF8) as file:
+    with open('./data/corpus/wikipedia_chs_20180927.txt', FILE_MODE.READ, encoding = ENCODE.UTF8) as file:
     # with open('./data/corpus/small.xml', FILE_MODE.READ, encoding = ENCODE.UTF8) as file:
         print(file.read())
 
