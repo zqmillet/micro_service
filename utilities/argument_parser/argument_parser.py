@@ -15,8 +15,6 @@ class ArgumentParser(argparse.ArgumentParser):
             if 'default' in kwargs and not kwargs['default'] == argparse.SUPPRESS:
                 comment_list.append('# default value: {default}'.format(default = kwargs['default']))
 
-            if len(comment_list) == 0:
-                kwargs['help'] = '\n'.join(textwrap.wrap(kwargs['help']))
-            else:
-                kwargs['help'] = '\n'.join(textwrap.wrap(kwargs['help'])) + colorama.Fore.BLUE + '\n' + '\n'.join(comment_list) + colorama.Fore.RESET
+            comment = '' if len(comment_list) == 0 else colorama.Fore.BLUE + '\n' + '\n'.join(comment_list) + colorama.Fore.RESET
+            kwargs['help'] = '\n'.join(sum([textwrap.wrap(line) for line in kwargs['help'].split('\n')], [])) + comment
         super(ArgumentParser, self).add_argument(*argv, **kwargs)

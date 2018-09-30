@@ -109,7 +109,7 @@ def parse_argument():
         action   = 'store',
         type     = bool,
         default  = True,
-        help     = 'if True, hierarchical softmax will be used for model training. if False, and negative is non-zero, negative sampling will be used'
+        help     = 'if True, hierarchical softmax will be used for model training.\nif False, and negative is non-zero, negative sampling will be used'
     )
     arguments.add_argument(
         '-m', '--cbow_mean',
