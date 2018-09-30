@@ -34,7 +34,7 @@ def testcases():
     word_vector.save(model_file_path)
     word_vector = WordVector(model_file_path)
 
-    # print(json.dumps(word_vector.get_training_parameters(), ensure_ascii = False, indent = 4))
+    print(json.dumps(word_vector.get_training_parameters(), ensure_ascii = False, indent = 4))
     # print(word_vector['文本'])
     # print(word_vector['这个词肯定不在词库里'])
 
