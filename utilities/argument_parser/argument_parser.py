@@ -1,12 +1,33 @@
-import argparse
+zmport argparse
 import textwrap
 import colorama
 
 class ArgumentParser(argparse.ArgumentParser):
+    '''
+    this class inherits from argparse.ArgumentParser.
+
+    this class can show the types and default values of parameters, automatically.
+    '''
+
     def __init__(self, *argv, **kwargs):
+        '''
+        this is the constructor of the class ArgumentParser.
+
+        parameters:
+            it will pass all import arguments into the function __init__ of class argparse.ArgumentParser.
+        '''
+
         super(ArgumentParser, self).__init__(formatter_class = argparse.RawTextHelpFormatter)
 
     def add_argument(self, *argv, **kwargs):
+        '''
+        override the function add_argument.
+        it will format the help messages of argument.
+
+        parameters:
+            it will pass all import arguments into the function __init__ of class argparse.ArgumentParser.
+        '''
+
         if 'help' in kwargs:
             kwargs['help'] = kwargs['help'].strip().strip('.')
             comment_list = list()

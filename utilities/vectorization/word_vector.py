@@ -173,7 +173,6 @@ class WordVector:
                 the model generate by gensim.
         '''
 
-        import pdb; pdb.set_trace()
         self.__word_index_dictionary = {word: information.index for word, information in gensim_model.wv.vocab.items()}
         self.__index_word_dictionary = {information.index: word for word, information in gensim_model.wv.vocab.items()}
 
