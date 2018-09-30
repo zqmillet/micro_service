@@ -116,7 +116,7 @@ def parse_argument():
         action   = 'store',
         type     = int,
         default  = 1,
-        help     = 'if 0, use the sum of the context word vectors. if 1, use the mean, only applies when cbow is used'
+        help     = 'if 0, use the sum of the context word vectors.\nif 1, use the mean, only applies when cbow is used'
     )
     arguments.add_argument(
         '-i', '--iterations',
