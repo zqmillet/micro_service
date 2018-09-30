@@ -18,12 +18,12 @@ class Configuration(dict):
         this is the constructor of the class Configuration.
 
         parameters:
-            - argument:
+            - argument <str>/<dict>:
                 this is the input argument.
                 if its type is str, it will be regarded as a json file path;
                 if its type is dict, it will be regarded as a dictionary.
 
-            - code_prefix:
+            - code_prefix <str>:
                 if a value starts with code_prefix, it is a python code.
 
         exceptions:

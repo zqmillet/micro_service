@@ -5,7 +5,7 @@ def execute(code):
     this function is used to execute the python code, and get the value of the last line.
 
     parameters:
-        - code:
+        - code <str>:
             this is the python code which will be executed.
     '''
 
