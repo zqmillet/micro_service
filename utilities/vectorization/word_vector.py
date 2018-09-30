@@ -4,6 +4,7 @@ import pickle
 import json
 
 from utilities.vectorization import WordSplitter, CorpusGenerator
+from utilities.math import cosine_distance
 from constants import FILE_MODE
 
 class WordVector:
@@ -27,6 +28,7 @@ class WordVector:
     __training_parameters = None
     __matrix = None
     __word_index_dictionary = None
+    __index_word_dictionary = None
 
     def __init__(self, model_file_path = None):
         '''
@@ -155,6 +157,8 @@ class WordVector:
 
     def load_from_gensim_model(self, gensim_model):
         self.__word_index_dictionary = {word: information.index for word, information in gensim_model.wv.vocab.items()}
+        self.__index_word_dictionary = {information.index: word for word, information in gensim_model.wv.vocab.items()}
+
         self.__matrix = gensim_model.wv.syn0
         self.__black_dictionary = dict()
         self.__shape = gensim_model.wv.syn0[0].shape
@@ -170,6 +174,13 @@ class WordVector:
     def save(self, model_file_path):
         with open(model_file_path, FILE_MODE.BINARY_WRITE) as file:
             file.write(pickle.dumps(self))
+
+    def get_nearest_word_list(self, word, topn = 10):
+        word_vector = self[word]
+        distance_list = cosine_distance(self.__matrix, word_vector)
+        nearest_index_list = distance_list.argsort()[:topn]
+        result = [{'word':self.__index_word_dictionary[index], 'distance':distance_list[index]} for index in nearest_index_list]
+        return result
 
     def __getitem__(self, word):
         if word in self.__word_index_dictionary:
