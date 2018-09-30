@@ -18,5 +18,5 @@ class ArgumentParser(argparse.ArgumentParser):
             if len(comment_list) == 0:
                 kwargs['help'] = '\n'.join(textwrap.wrap(kwargs['help']))
             else:
-                kwargs['help'] = '\n'.join(textwrap.wrap(kwargs['help'])) + '\n[' + colorama.import colorama.Fore.BLUE(', '.join(comment_list)) + ']'
+                kwargs['help'] = '\n'.join(textwrap.wrap(kwargs['help'])) + '\n[' + colorama.Fore.BLUE(', '.join(comment_list)) + ']'
         super(ArgumentParser, self).add_argument(*argv, **kwargs)
