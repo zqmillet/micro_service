@@ -12,26 +12,26 @@ def testcases():
     configuration = Configuration('./config/logging.json')
     logger = Logger(**configuration.word_vector_training)
 
-    # word_vector = WordVector()
-    # word_splitter = WordSplitter()
+    word_vector = WordVector()
+    word_splitter = WordSplitter()
 
-    # window_size = 5
-    # corpus_generator = CorpusGenerator(
-    #     './data/small_corpus',
-    #     word_splitter = word_splitter,
-    #     window_size = window_size,
-    #     placeholder = 'UNK')
+    window_size = 5
+    corpus_generator = CorpusGenerator(
+        './data/small_corpus',
+        word_splitter = word_splitter,
+        window_size = window_size,
+        placeholder = 'UNK')
 
 
-    # word_vector.training(
-    #     corpus_generator,
-    #     logger = logger,
-    #     iterations = 2,
-    #     window_size = window_size
-    # )
+    word_vector.training(
+        corpus_generator,
+        logger = logger,
+        iterations = 2,
+        window_size = window_size
+    )
 
     model_file_path = './models/word_embedding.bin'
-    # word_vector.save(model_file_path)
+    word_vector.save(model_file_path)
     word_vector = WordVector(model_file_path)
 
     print(json.dumps(word_vector.get_training_parameters(), ensure_ascii = False, indent = 4))
