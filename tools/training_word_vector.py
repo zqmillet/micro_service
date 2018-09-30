@@ -1,11 +1,11 @@
-import argparse
 import sys
 
 from utilities.vectorization import WordVector, CorpusGenerator, WordSplitter
 from utilities.logger import Logger
+from utilities.argument_parser import ArgumentParser
 
 def parse_argument():
-    arguments = argparse.ArgumentParser()
+    arguments = ArgumentParser()
     arguments.add_argument(
         '-d', '--corpus_directory',
         action   = 'store',
