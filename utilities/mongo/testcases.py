@@ -36,9 +36,6 @@ def testcases():
     except Exception as e:
         print(e)
 
-    from utilities.configuration import Configuration
-    configuration = Configuration('./config/database.json')
-
     # create a mongo database session.
     try:
         mongo_session = MongoSession(**configuration.mongo)
