@@ -6,7 +6,7 @@ import datetime
 from utilities.logger import get_handler
 from constants import LOGGING_LEVEL, LOGGING_HANDLER, LOGGING_FORMAT
 
-class Logger:
+class Logger(logging.Logger):
     '''
     this class is used for logging.
 
@@ -55,12 +55,13 @@ class Logger:
         '''
 
 
-        self.__logger = logging.getLogger(main_title)
-        self.__logger.setLevel(LOGGING_LEVEL.DEBUG)
+        logger = logging.getLogger(main_title)
+        self.__dict__ = logger.__dict__
+        self.setLevel(LOGGING_LEVEL.DEBUG)
 
         file_name = os.path.join(workspace, '_'.join([main_title, flow_type])) + '_{:%Y%m%d}.log'.format(datetime.datetime.now())
         for handler in handler_list:
-            self.__logger.addHandler(
+            self.addHandler(
                 get_handler(
                     main_title = main_title,
                     handler    = handler,
@@ -69,68 +70,3 @@ class Logger:
                     file_name  = file_name
                 )
             )
-
-    def info(self, *args, **kwargs):
-        '''
-        provide the function info.
-
-        parameters:
-            it pass all input arguments into the function __logger.info.
-
-        return:
-            the result of __logger.info.
-        '''
-
-        return self.__logger.info(*args, **kwargs)
-
-    def debug(self, *args, **kwargs):
-        '''
-        provide the function debug.
-
-        parameters:
-            it pass all input arguments into the function __logger.debug.
-
-        return:
-            the result of __logger.debug.
-        '''
-
-        return self.__logger.debug(*args, **kwargs)
-
-    def warning(self, *args, **kwargs):
-        '''
-        provide the function warning.
-
-        parameters:
-            it pass all input arguments into the function __logger.warning.
-
-        return:
-            the result of __logger.warning.
-        '''
-
-        return self.__logger.warning(*args, **kwargs)
-
-    def error(self, *args, **kwargs):
-        '''
-        provide the function error.
-
-        parameters:
-            it pass all input arguments into the function __logger.error.
-
-        return:
-            the result of __logger.error.
-        '''
-
-        return self.__logger.error(*args, **kwargs)
-
-    def critical(self, *args, **kwargs):
-        '''
-        provide the function critical.
-
-        parameters:
-            it pass all input arguments into the function __logger.critical.
-
-        return:
-            the result of __logger.critical.
-        '''
-
-        return self.__logger.critical(*args, **kwargs)
