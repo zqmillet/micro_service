@@ -27,7 +27,7 @@ def testcases():
     # logger2.error('this is error.')
     # logger2.critical('this is critical.')
 
-    for index in range(2):
+    for index in range(333):
         time.sleep(1)
         logger1.info('text' + str(index))
 
