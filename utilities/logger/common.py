@@ -47,7 +47,12 @@ def get_handler(main_title, handler, level, format, file_name):
         the handler of logging.
     '''
 
-    handler = handler(file_name) if handler == LOGGING_HANDLER.FILE else handler()
+    if handler == LOGGING_HANDLER.FILE:
+        handler = handler(file_name, 'S', 1)
+        handler.suffix = '%Y%m%d%H%M%S.log'
+    else:
+        handler = handler()
+
     handler.setLevel(level)
     formatter = logging.Formatter(format)
     handler.setFormatter(formatter)

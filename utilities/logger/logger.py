@@ -1,10 +1,80 @@
 import os
 import logging
 import logging.config
+import logging.handlers
 import datetime
+import time
 
 from utilities.logger import get_handler
 from constants import LOGGING_LEVEL, LOGGING_HANDLER, LOGGING_FORMAT
+
+
+class FileHandler(logging.handlers.TimedRotatingFileHandler):
+    def doRollover(self):
+        """
+        do a rollover; in this case, a date/time stamp is appended to the filename
+        when the rollover happens.  However, you want the file to be named for the
+        start of the interval, not the current time.  If there is a backup count,
+        then we have to get a list of matching filenames, sort them and remove
+        the one with the oldest suffix.
+        """
+        if self.stream:
+            self.stream.close()
+            self.stream = None
+        # get the time that this sequence started at and make it a TimeTuple
+        currentTime = int(time.time())
+        dstNow = time.localtime(currentTime)[-1]
+        t = self.rolloverAt - self.interval
+        if self.utc:
+            timeTuple = time.gmtime(t)
+        else:
+            timeTuple = time.localtime(t)
+            dstThen = timeTuple[-1]
+            if dstNow != dstThen:
+                if dstNow:
+                    addend = 3600
+                else:
+                    addend = -3600
+                timeTuple = time.localtime(t + addend)
+        dfn = self.rotation_filename(self.baseFilename + "_" +
+                                     time.strftime(self.suffix, timeTuple))
+        if os.path.exists(dfn):
+            os.remove(dfn)
+        self.rotate(self.baseFilename, dfn)
+        if self.backupCount > 0:
+            for s in self.getFilesToDelete():
+                os.remove(s)
+        if not self.delay:
+            self.stream = self._open()
+        newRolloverAt = self.computeRollover(currentTime)
+        while newRolloverAt <= currentTime:
+            newRolloverAt = newRolloverAt + self.interval
+        #If DST changes and midnight or weekly rollover, adjust for this.
+        if (self.when == 'MIDNIGHT' or self.when.startswith('W')) and not self.utc:
+            dstAtRollover = time.localtime(newRolloverAt)[-1]
+            if dstNow != dstAtRollover:
+                if not dstNow:  # DST kicks in before next rollover, so we need to deduct an hour
+                    addend = -3600
+                else:           # DST bows out before next rollover, so we need to add an hour
+                    addend = 3600
+                newRolloverAt += addend
+        self.rolloverAt = newRolloverAt
+
+    def emit(self, record):
+        """
+        Emit a record.
+
+        Output the record to the file, catering for rollover as described
+        in doRollover().
+        """
+        try:
+            import pdb; pdb.set_trace()
+            self.doRollover()
+            logging.FileHandler.emit(self, record)
+        except Exception:
+            self.handleError(record)
+
+LOGGING_HANDLER.FILE = FileHandler
 
 class Logger(logging.Logger):
     '''
@@ -59,7 +129,7 @@ class Logger(logging.Logger):
         self.__dict__ = logger.__dict__
         self.setLevel(LOGGING_LEVEL.DEBUG)
 
-        file_name = os.path.join(workspace, '_'.join([main_title, flow_type])) + '_{:%Y%m%d}.log'.format(datetime.datetime.now())
+        file_name = os.path.join(workspace, '_'.join([main_title, flow_type])).format(datetime.datetime.now())
         for handler in handler_list:
             self.addHandler(
                 get_handler(
