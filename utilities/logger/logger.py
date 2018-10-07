@@ -60,20 +60,6 @@ class FileHandler(logging.handlers.TimedRotatingFileHandler):
                 newRolloverAt += addend
         self.rolloverAt = newRolloverAt
 
-    def emit(self, record):
-        """
-        Emit a record.
-
-        Output the record to the file, catering for rollover as described
-        in doRollover().
-        """
-        try:
-            import pdb; pdb.set_trace()
-            self.doRollover()
-            logging.FileHandler.emit(self, record)
-        except Exception:
-            self.handleError(record)
-
 LOGGING_HANDLER.FILE = FileHandler
 
 class Logger(logging.Logger):
