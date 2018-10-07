@@ -83,42 +83,32 @@ class DailyFileHandler(logging.handlers.TimedRotatingFileHandler):
         if self.stream:
             self.stream.close()
             self.stream = None
-        # get the time that this sequence started at and make it a TimeTuple
-        currentTime = int(time.time())
-        dstNow = time.localtime(currentTime)[-1]
-        t = self.rolloverAt - self.interval
-        if self.utc:
-            timeTuple = time.gmtime(t)
-        else:
-            timeTuple = time.localtime(t)
-            dstThen = timeTuple[-1]
-            if dstNow != dstThen:
-                if dstNow:
-                    addend = 3600
-                else:
-                    addend = -3600
-                timeTuple = time.localtime(t + addend)
-        suffix = self.get_time_string() + '.' + self.extension
-        dfn = self.rotation_filename(self.baseFilename[:-len(suffix)] + suffix)
 
-        if os.path.exists(dfn):
-            os.remove(dfn)
-        self.rotate(self.baseFilename, dfn)
+        current_time = int(time.time())
+        time_now = time.localtime(current_time)[-1]
+
+        suffix = self.get_time_string() + '.' + self.extension
+        file_name = self.rotation_filename(self.baseFilename[:-len(suffix)] + suffix)
+
+        if os.path.exists(file_name):
+            os.remove(file_name)
+
+        self.rotate(self.baseFilename, file_name)
         if self.backupCount > 0:
-            for s in self.getFilesToDelete():
-                os.remove(s)
+            for file_path in self.getFilesToDelete():
+                os.remove(file_path)
         if not self.delay:
             self.stream = self._open()
-        newRolloverAt = self.computeRollover(currentTime)
-        while newRolloverAt <= currentTime:
-            newRolloverAt = newRolloverAt + self.interval
+        new_rollover_at = self.computeRollover(current_time)
+        while new_rollover_at <= current_time:
+            new_rollover_at = new_rollover_at + self.interval
         #If DST changes and midnight or weekly rollover, adjust for this.
         if (self.when == 'MIDNIGHT' or self.when.startswith('W')) and not self.utc:
-            dstAtRollover = time.localtime(newRolloverAt)[-1]
-            if dstNow != dstAtRollover:
-                if not dstNow:  # DST kicks in before next rollover, so we need to deduct an hour
+            dstAtRollover = time.localtime(new_rollover_at)[-1]
+            if time_now != dstAtRollover:
+                if not time_now:  # DST kicks in before next rollover, so we need to deduct an hour
                     addend = -3600
                 else:           # DST bows out before next rollover, so we need to add an hour
                     addend = 3600
-                newRolloverAt += addend
-        self.rolloverAt = newRolloverAt
+                new_rollover_at += addend
+        self.rolloverAt = new_rollover_at
