@@ -10,8 +10,8 @@ class LOGGING_LEVEL:
     NOTSET   = logging.NOTSET
 
 class LOGGING_HANDLER:
-    STREAM   = logging.StreamHandler
-    FILE     = logging.handlers.TimedRotatingFileHandler
+    STREAM   = 'STREAM' # logging.StreamHandler
+    FILE     = 'FILE' # logging.handlers.TimedRotatingFileHandler
 
 class LOGGING_FORMAT:
     '''

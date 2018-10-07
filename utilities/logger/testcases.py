@@ -14,7 +14,6 @@ def testcases():
     #     flow_type = 'ml'
     # )
 
-    import pdb; pdb.set_trace()
     logger1.info('this is info.')
     logger1.debug('this is debug.')
     logger1.warning('this is warning.')
@@ -27,7 +26,7 @@ def testcases():
     # logger2.error('this is error.')
     # logger2.critical('this is critical.')
 
-    for index in range(333):
+    for index in range(3):
         time.sleep(1)
         logger1.info('text' + str(index))
 
