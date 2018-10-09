@@ -1,0 +1,3 @@
+{
+    "word_vector": "./models/word_embedding.bin"
+}
