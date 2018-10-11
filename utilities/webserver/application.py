@@ -15,7 +15,7 @@ def create_tornado_request_handler(function, method_list, logger):
         self.write(result)
 
         if not logger is None:
-            logger.info('get')
+            logger.info('the function {function_name} is called by get.'.format(function_name = function.__name__))
 
     def post(self):
         body = self.request.body.decode(ENCODE.UTF8)
@@ -27,6 +27,9 @@ def create_tornado_request_handler(function, method_list, logger):
 
         result = function(**input_arguments)
         self.write(result)
+
+        if not logger is None:
+            logger.info('the function {function_name} is called by post.'.format(function_name = function.__name__))
 
     function_arguments = inspect.getargspec(function).args
 
