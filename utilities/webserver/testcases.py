@@ -22,7 +22,7 @@ def webserver_listening():
     asyncio.set_event_loop(asyncio.new_event_loop())
     application.start(port = 8000)
 
-def webserver_testing():
+def webserver_sending():
     time.sleep(2)
     result = requests.post('http://localhost:8000/print', data = json.dumps({'text': '12345'}))
     print(result.text)
@@ -35,14 +35,13 @@ def webserver_testing():
 
 def testcases():
     webserver_listening_thread = threading.Thread(target = webserver_listening)
-    webserver_testing_thread = threading.Thread(target = webserver_testing)
+    webserver_sending_thread = threading.Thread(target = webserver_sending)
 
     webserver_listening_thread.start()
-    webserver_testing_thread.start()
+    webserver_sending_thread.start()
 
     webserver_listening_thread.join()
-    webserver_testing_thread.join()
+    webserver_sending_thread.join()
 
 if __name__ == '__main__':
     testcases()
-
