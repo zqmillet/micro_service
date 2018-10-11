@@ -1,9 +1,6 @@
 import os
 import logging
-import logging.config
-import logging.handlers
 import datetime
-import time
 
 from utilities.logger import get_handler
 from constants import LOGGING_LEVEL, LOGGING_HANDLER, LOGGING_FORMAT
@@ -13,11 +10,8 @@ class Logger(logging.Logger):
     this class is used for logging.
 
     member variables:
-        - __logger <logging.Logger>:
-            this is the logger.
+        nothing.
     '''
-
-    __logger = None
 
     def __init__(
         self,
