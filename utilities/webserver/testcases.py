@@ -28,7 +28,7 @@ def webserver_listening():
     application.start(port = 8000)
 
 def webserver_sending():
-    time.sleep(2)
+    time.sleep(1)
     result = requests.post('http://localhost:8000/print', data = json.dumps({'text': '12345'}))
     print(result.text)
 
@@ -37,6 +37,12 @@ def webserver_sending():
 
     result = requests.post('http://localhost:8000/add', data = json.dumps({'x': 1, 'y': '3'}))
     print(result.text)
+
+    result = requests.get('http://localhost:8000/add?a=3&b=4')
+    print(result)
+
+    result = requests.post('http://localhost:8000/add', data = json.dumps({'a': 1, 'b': '3'}))
+    print(result)
 
 def testcases():
     webserver_listening_thread = threading.Thread(target = webserver_listening)
