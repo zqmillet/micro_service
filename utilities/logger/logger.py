@@ -59,6 +59,7 @@ class Logger(logging.Logger):
         logger = logging.getLogger(main_title)
         self.__dict__ = logger.__dict__
         self.setLevel(LOGGING_LEVEL.DEBUG)
+        self.propagate = False
 
         file_name = os.path.join(workspace, '_'.join([main_title, flow_type])).format(datetime.datetime.now())
         for handler in handler_list:
