@@ -6,6 +6,7 @@ import requests
 
 from constants import METHOD
 from utilities.webserver import Application
+from utilities.logger import Logger
 
 def webserver_listening():
     def add(x, y = '1'):
@@ -16,7 +17,11 @@ def webserver_listening():
     def print(text):
         return text
 
-    application = Application()
+    logger = Logger(
+        main_title = 'webserver',
+        flow_type = 'test'
+    )
+    application = Application(logger = logger)
     application.regist_service(add, api_path = '/add', method_list = [METHOD.GET, METHOD.POST])
     application.regist_service(print, api_path = '/print', method_list = [METHOD.POST])
     asyncio.set_event_loop(asyncio.new_event_loop())

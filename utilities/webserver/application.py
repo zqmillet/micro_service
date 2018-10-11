@@ -5,7 +5,7 @@ import json
 
 from constants import METHOD, STATUS, ENCODE
 
-def create_tornado_request_handler(function, method_list):
+def create_tornado_request_handler(function, method_list, logger):
     def get(self):
         input_arguments= {key: value[0] for key, value in self.request.arguments.items()}
         if not set(input_arguments.keys()).issubset(set(function_arguments)):
@@ -13,6 +13,9 @@ def create_tornado_request_handler(function, method_list):
             return
         result = function(**input_arguments)
         self.write(result)
+
+        if not logger is None:
+            logger.info('get')
 
     def post(self):
         body = self.request.body.decode(ENCODE.UTF8)
@@ -40,13 +43,15 @@ def create_tornado_request_handler(function, method_list):
 
 class Application:
     __service_list = None
-    __application = None
+    __application  = None
+    __logger       = None
 
-    def __init__(self):
+    def __init__(self, logger = None):
         self.__service_list = list()
+        self.__logger = logger
 
     def regist_service(self, function, api_path, method_list):
-        RequestHandler = create_tornado_request_handler(function, method_list = method_list)
+        RequestHandler = create_tornado_request_handler(function, method_list = method_list, logger = self.__logger)
         self.__service_list.append(
             (api_path, RequestHandler)
         )
