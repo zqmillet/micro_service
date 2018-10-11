@@ -8,9 +8,6 @@ from constants import METHOD, STATUS, ENCODE
 def create_tornado_request_handler(function, method_list, logger):
     def get(self):
         input_arguments= {key: value[0] for key, value in self.request.arguments.items()}
-        if not set(input_arguments.keys()).issubset(set(function_arguments)):
-            self.write(STATUS.FAILURE)
-            return
         result = function(**input_arguments)
         self.write(result)
 
