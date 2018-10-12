@@ -10,10 +10,12 @@ def start(configuration):
 
     for service_name in configuration.keys():
         service_information = getattr(configuration, service_name)
+        if not service_information.enable:
+            continue
         application.regist_service(
             function = getattr(configuration, service_name).function,
             api_path = service_information.api_path,
-            method_list = service_information.method_list.split('/')
+            method_list = service_information.methods.split('/')
         )
     application.start(port = 8000)
 

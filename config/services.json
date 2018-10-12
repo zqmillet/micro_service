@@ -1,14 +1,14 @@
 {
     "get_nearest_word_list": {
-        "enable":   true,
+        "enable":   false,
         "api_path": "/get_nearest_word_list",
         "function": "### from services import get_nearest_word_list; get_nearest_word_list",
-        "method_list":   "get"
+        "methods":  "get"
     },
     "get_word_vector": {
         "enable":   true,
         "api_path": "/get_word_vector",
         "function": "### from services import get_word_vector; get_word_vector",
-        "method_list": "get"
+        "methods":  "get/post"
     }
 }
