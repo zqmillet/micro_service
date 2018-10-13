@@ -4,31 +4,21 @@ import asyncio
 import json
 import requests
 
-from constants import METHOD
-from utilities.webserver import Application
 from utilities.logger import Logger
+from utilities.webserver import Server
+from utilities.configuration import Configuration
 
 def webserver_listening():
-    def add(x, y = '1'):
-        x = int(x)
-        y = int(y)
-        return str(x + y)
-
-    def print(text):
-        return text
-
     logger = Logger(
         main_title = 'webserver',
         flow_type = 'test'
     )
-    application = Application(logger = logger)
-    application.regist_service(add, api_path = '/add', method_list = [METHOD.GET, METHOD.POST])
-    application.regist_service(print, api_path = '/print', method_list = [METHOD.POST])
-    asyncio.set_event_loop(asyncio.new_event_loop())
-    application.start(port = 8000)
+    configuration = Configuration('./config/services.json')
+    server = Server(configuration = configuration, logger = logger, port = 8000)
+    server.start()
 
 def webserver_sending():
-    time.sleep(1)
+    time.sleep(2)
     result = requests.post('http://localhost:8000/print', data = json.dumps({'text': '12345'}))
     print(result.text)
 
@@ -55,4 +45,4 @@ def testcases():
     webserver_sending_thread.join()
 
 if __name__ == '__main__':
-    testcases()
+    webserver_listening()
