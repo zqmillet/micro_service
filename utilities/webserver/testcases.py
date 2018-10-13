@@ -15,24 +15,19 @@ def webserver_listening():
     )
     configuration = Configuration('./config/services.json')
     server = Server(configuration = configuration, logger = logger, port = 8000)
+    asyncio.set_event_loop(asyncio.new_event_loop())
     server.start()
 
 def webserver_sending():
-    time.sleep(2)
-    result = requests.post('http://localhost:8000/print', data = json.dumps({'text': '12345'}))
+    time.sleep(4)
+    result = requests.get('http://localhost:8000/get_word_vector?word=中国')
     print(result.text)
 
-    result = requests.get('http://localhost:8000/add?x=3&y=4')
+    result = requests.post('http://localhost:8000/get_word_vector', data = json.dumps({'word': '中国'}))
     print(result.text)
 
-    result = requests.post('http://localhost:8000/add', data = json.dumps({'x': 1, 'y': '3'}))
+    result = requests.get('http://localhost:8000/get_nearest_word_list?word=中国')
     print(result.text)
-
-    result = requests.get('http://localhost:8000/add?a=3&b=4')
-    print(result)
-
-    result = requests.post('http://localhost:8000/add', data = json.dumps({'a': 1, 'b': '3'}))
-    print(result)
 
 def testcases():
     webserver_listening_thread = threading.Thread(target = webserver_listening)
@@ -45,4 +40,4 @@ def testcases():
     webserver_sending_thread.join()
 
 if __name__ == '__main__':
-    webserver_listening()
+    testcases()

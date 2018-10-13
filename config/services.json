@@ -1,6 +1,6 @@
 {
     "get_nearest_word_list": {
-        "enable":   false,
+        "enable":   true,
         "api_path": "/get_nearest_word_list",
         "function": "### from services import get_nearest_word_list; get_nearest_word_list",
         "methods":  "get"
