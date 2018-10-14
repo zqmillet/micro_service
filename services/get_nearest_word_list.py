@@ -1,8 +1,9 @@
 import json
 
 from resources import word_vector
+from utilities.webserver import convert_to_string
 
-def get_nearest_word_list(word: str, topn: int = 10) -> lambda x: json.dumps(x, ensure_ascii = False, indent = 4):
+def get_nearest_word_list(word: str, topn: int = 10) -> convert_to_string:
     '''
     this function is used to get the nearest word list of the input word.
 

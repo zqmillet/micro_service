@@ -28,6 +28,6 @@ def convert_input_argument_type(function):
     @functools.wraps(function)
     def wrapper(*args, **kwargs):
         for argument in kwargs:
-            kwargs[argument] = function.__annotations__[argument](kwargs[argument])
+            kwargs[argument] = function.__annotations__.get(argument, lambda x: x)(kwargs[argument])
         return function.__annotations__.get('return', lambda x: x)(function(*args, **kwargs))
     return wrapper
