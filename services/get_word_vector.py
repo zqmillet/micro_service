@@ -1,9 +1,18 @@
-import json
-
 from resources import word_vector
 from utilities.webserver import convert_to_string
 
 def get_word_vector(word) -> convert_to_string:
+    '''
+    this function is used to get the word vector.
+
+    parameters:
+        - word <str>:
+            the word.
+
+    return <numpy.ndarray>:
+        the word vector.
+    '''
+
     return word_vector[word]
 
 def testcases():

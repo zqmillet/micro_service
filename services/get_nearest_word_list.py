@@ -1,5 +1,3 @@
-import json
-
 from resources import word_vector
 from utilities.webserver import convert_to_string
 
@@ -15,7 +13,7 @@ def get_nearest_word_list(word: str, topn: int = 10) -> convert_to_string:
             the element number of the nearest word list.
 
     return <list>:
-        the nearest word list
+        the nearest word list.
     '''
 
     return word_vector.get_nearest_word_list(word, topn)
