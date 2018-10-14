@@ -40,4 +40,4 @@ def testcases():
     webserver_sending_thread.join()
 
 if __name__ == '__main__':
-    testcases()
+    webserver_listening()

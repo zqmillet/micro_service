@@ -33,7 +33,7 @@ def create_tornado_request_handler(function, method_list, logger):
             self.set_status(400)
             logger.error(e.args[0])
 
-    function_arguments = inspect.getargspec(function).args
+    function_arguments = inspect.getfullargspec(function).args
 
     class RequestHandler(tornado.web.RequestHandler):
         pass
