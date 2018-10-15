@@ -1,9 +1,9 @@
 import json
 
 from resources import word_vector
-from constants import FILE_MODE, ENCODE
 from utilities.vectorization import WordSplitter, AutoCompleter
 from utilities.webserver import convert_to_string
+from constants import FILE_MODE, ENCODE
 
 candidate_list = json.load(open('./data/eason.json', FILE_MODE.READ, encoding = ENCODE.UTF8))
 word_splitter = WordSplitter()
