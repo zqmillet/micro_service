@@ -10,5 +10,11 @@
         "api_path": "/get_word_vector",
         "function": "### from services import get_word_vector; get_word_vector",
         "methods":  "get/post"
+    },
+    "auto_complete": {
+        "enable":   true,
+        "api_path": "/auto_complete",
+        "function": "### from services import auto_complete; auto_complete",
+        "methods":  "get"
     }
 }
