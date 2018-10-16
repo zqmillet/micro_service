@@ -17,3 +17,5 @@ def convert_to_string(data):
         return json.dumps(data.tolist(), ensure_ascii = False, indent = 4)
     elif isinstance(data, list):
         return json.dumps(data, ensure_ascii = False, indent = 4)
+    else:
+        return data

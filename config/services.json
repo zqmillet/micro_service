@@ -16,5 +16,11 @@
         "api_path": "/auto_complete",
         "function": "### from services import auto_complete; auto_complete",
         "methods":  "get"
+    },
+    "word_split": {
+        "enable":   true,
+        "api_path": "/word_split",
+        "function": "### from services import word_split; word_split",
+        "methods":  "get"
     }
 }

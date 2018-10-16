@@ -61,6 +61,8 @@ class Server(object):
                 api_path    = service_information.api_path,
                 method_list = service_information.methods.split('/')
             )
+            logger.info('the service {service_name} is registed'.format(service_name = service_name))
+        logger.info('all services are ready')
 
     def start(self):
         '''
