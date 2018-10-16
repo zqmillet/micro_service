@@ -4,7 +4,7 @@ from utilities.vectorization import WordVector, CorpusGenerator, WordSplitter
 from utilities.logger import Logger
 from utilities.argument_parser import ArgumentParser
 
-def parse_argument():
+def parse_arguments():
     arguments = ArgumentParser()
     arguments.add_argument(
         '-d', '--corpus_directory',
@@ -144,7 +144,7 @@ def parse_argument():
 
 def main():
     # parse the input arguments.
-    arguments = parse_argument()
+    arguments = parse_arguments()
 
     # initialize the word splitter.
     word_splitter = WordSplitter(arguments.word_dictionary)
