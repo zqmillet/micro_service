@@ -3,21 +3,24 @@ import tornado.ioloop
 import inspect
 import json
 import logging
+import time
 
 from constants import METHOD, STATUS, ENCODE
 
 def create_tornado_request_handler(function, method_list, logger):
     def get(self):
+        now = time.time()
         input_arguments= {key: value[0].decode(ENCODE.UTF8) for key, value in self.request.arguments.items()}
         try:
             result = function(**input_arguments)
             self.write(result)
-            logger.info('the function {function_name} is called by get.'.format(function_name = function.__name__))
+            logger.info('the function {function_name} is called by get, the time consuming is {time_consuming}s'.format(function_name = function.__name__, time_consuming = time.time() - now))
         except Exception as e:
             self.set_status(400)
             logger.error(e.args[0])
 
     def post(self):
+        now = time.time()
         body = self.request.body.decode(ENCODE.UTF8)
 
         if body == '':
@@ -28,7 +31,7 @@ def create_tornado_request_handler(function, method_list, logger):
         try:
             result = function(**input_arguments)
             self.write(result)
-            logger.info('the function {function_name} is called by post.'.format(function_name = function.__name__))
+            logger.info('the function {function_name} is called by post, the time consuming is {time_consuming}s'.format(function_name = function.__name__, time_consuming = time.time() - now))
         except Exception as e:
             self.set_status(400)
             logger.error(e.args[0])
