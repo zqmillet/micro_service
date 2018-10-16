@@ -25,7 +25,7 @@ def parse_arguments():
         '-f', '--flow',
         action   = 'store',
         type     = str,
-        default  = 'casebot',
+        default  = 'main',
         help     = 'specify the flow type for the logger'
     )
     arguments.add_argument(
