@@ -17,24 +17,22 @@ def auto_type_convertor(function):
     @functools.wraps(function)
     def wrapper(*args, **kwargs):
         parameters = inspect.signature(function).parameters
-        argument_keys = tuple(parameters.keys())
-
-        argument_list = list()
-        for index, argument in enumerate(args):
-            annotation = parameters[argument_keys[index]].annotation
-            annotation = annotation if callable(annotation) else lambda x: x
-            argument_list.append(annotation(argument))
+        argument_name_list = list(parameters.keys())
+        convertor_list = [parameters[argument_name].annotation for argument_name in argument_name_list]
+        key_word_argument_name_list = argument_name_list[-len(kwargs)] if not len(kwargs) == 0 else list()
+        value_list = list(args) + [kwargs[argument_name] for argument_name in key_word_argument_name_list]
 
         argument_dictionary = dict()
-        for argument in kwargs:
-            argument_dictionary[argument] = function.__annotations__.get(argument, lambda x: x)(kwargs[argument])
+        for name, value, convertor in zip(argument_name_list, value_list, convertor_list):
+            argument_dictionary[name] = convertor(value) if not convertor is inspect._empty else value
 
-        return function.__annotations__.get('return', lambda x: x)(function(*argument_list, **argument_dictionary))
+        convertor = inspect.signature(function).return_annotation
+        return convertor(function(**argument_dictionary))
     return wrapper
 
 def testcases():
     @auto_type_convertor
-    def add(x: int, y: int) -> str:
+    def add(x, y: int) -> str:
         return x + y
 
     @auto_type_convertor
