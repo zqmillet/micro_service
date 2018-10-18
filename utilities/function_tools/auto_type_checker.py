@@ -1,7 +1,7 @@
 import functools
 import inspect
 
-from exceptions import InvalidValueError
+from exceptions import InvalidValueError, InvalidCheckerError
 
 def auto_type_checker(function):
     @functools.wraps(function)
@@ -20,7 +20,7 @@ def auto_type_checker(function):
         # initialize the result dictionary, where key is argument name, value is the checker result.
         result_dictionary = dict()
         for name, value, checker in zip(argument_name_list, value_list, checker_list):
-            result_dictionary[name] = check(name, value, checker)
+            result_dictionary[name] = check(name, value, checker, function)
 
 
         # fetch the invalid argument name list.
@@ -33,17 +33,17 @@ def auto_type_checker(function):
         # check the result.
         result = function(*args, **kwargs)
         checker = inspect.signature(function).return_annotation
-        if not check('return', result, checker):
+        if not check('return', result, checker, function):
             raise InvalidValueError(['return'], function)
 
         # return the result.
         return result
     return wrapper
 
-def check(name, value, checker):
+def check(name, value, checker, function):
     if isinstance(checker, (tuple, list, set)):
 
-        return True in [check(name, value, sub_checker) for sub_checker in checker]
+        return True in [check(name, value, sub_checker, function) for sub_checker in checker]
     elif checker is inspect._empty:
         return True
     elif isinstance(checker, type):
@@ -51,7 +51,7 @@ def check(name, value, checker):
     elif callable(checker):
         result = checker(value)
         if not isinstance(result, bool):
-            print('the checker of {name} is invalid'.format(name = name))
+            raise InvalidCheckerError(name, function)
         return result
 
 def testcases():
@@ -66,7 +66,7 @@ def testcases():
     class Test():
         base = 1
         @auto_type_checker
-        def add(self, a, b, c: [int, float], d: int) -> str:
+        def add(self, a, b, c: [int, float], d: int) -> lambda x: str(x):
             return self.base + a + b + c + d
 
     try:
@@ -87,6 +87,11 @@ def testcases():
     var = Test()
     try:
         var.add(1, 2, 3.3, 4.5)
+    except Exception as e:
+        print(e)
+
+    try:
+        var.add(1, 2, 3, 4)
     except Exception as e:
         print(e)
 

@@ -27,3 +27,16 @@ class InvalidValueError(BaseException):
         self.file_name = function.__code__.co_filename
         self.line_number = function.__code__.co_firstlineno
         self.function_name = function.__name__
+
+class InvalidCheckerError(BaseException):
+    name = None
+    file_name = None
+    line_number = None
+    function_name = None
+    message = 'the checker of <{name}> is invalid, please see the definition of the function <{function_name}> in the file {file_name}, line number {line_number}'
+
+    def __init__(self, name, function):
+        self.name = name
+        self.file_name = function.__code__.co_filename
+        self.line_number = function.__code__.co_firstlineno
+        self.function_name = function.__name__
