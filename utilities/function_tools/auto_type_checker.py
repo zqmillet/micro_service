@@ -41,7 +41,8 @@ def auto_type_checker(function):
     return wrapper
 
 def check(name, value, checker):
-    if isinstance(checker, tuple):
+    if isinstance(checker, (tuple, list, set)):
+
         return True in [check(name, value, sub_checker) for sub_checker in checker]
     elif checker is inspect._empty:
         return True
@@ -65,7 +66,7 @@ def testcases():
     class Test():
         base = 1
         @auto_type_checker
-        def add(self, a, b, c: (int, float), d: int) -> str:
+        def add(self, a, b, c: [int, float], d: int) -> str:
             return self.base + a + b + c + d
 
     try:
