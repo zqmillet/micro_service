@@ -22,10 +22,6 @@ def auto_type_checker(function):
         for name, value, checker in zip(argument_name_list, value_list, checker_list):
             result_dictionary[name] = check(name, value, checker)
 
-        # # append the return value checker result.
-        # result = function(*args, **kwargs)
-        # checker = inspect.signature(function).return_annotation
-        # result_dictionary['return'] = check('return', result, checker)
 
         # fetch the invalid argument name list.
         invalid_argument_name_list = [key for key in argument_name_list if not result_dictionary[key]]
