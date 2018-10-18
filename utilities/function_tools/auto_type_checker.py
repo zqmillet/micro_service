@@ -30,11 +30,13 @@ def auto_type_checker(function):
         if len(invalid_argument_name_list) > 0:
             raise InvalidValueError(invalid_argument_name_list, function)
 
+        # check the result.
         result = function(*args, **kwargs)
         checker = inspect.signature(function).return_annotation
         if not check('return', result, checker):
             raise InvalidValueError(['return'], function)
 
+        # return the result.
         return result
     return wrapper
 
