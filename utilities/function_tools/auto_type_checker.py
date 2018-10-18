@@ -1,36 +1,51 @@
 import functools
 import inspect
 
-def auto_type_convertor(function):
+from exceptions import InvalidValueError
+
+def auto_type_checker(function):
     @functools.wraps(function)
     def wrapper(*args, **kwargs):
+        # fetch the argument name list.
         parameters = inspect.signature(function).parameters
         argument_name_list = list(parameters.keys())
+
+        # fetch the argument checker list.
         checker_list = [parameters[argument_name].annotation for argument_name in argument_name_list]
+
+        # fetch the value list.
         key_word_argument_name_list = argument_name_list[-len(kwargs)] if not len(kwargs) == 0 else list()
         value_list = list(args) + [kwargs[argument_name] for argument_name in key_word_argument_name_list]
 
+        # initialize the result dictionary, where key is argument name, value is the checker result.
         result_dictionary = dict()
         for name, value, checker in zip(argument_name_list, value_list, checker_list):
             result_dictionary[name] = check(name, value, checker)
 
+        # # append the return value checker result.
+        # result = function(*args, **kwargs)
+        # checker = inspect.signature(function).return_annotation
+        # result_dictionary['return'] = check('return', result, checker)
+
+        # fetch the invalid argument name list.
+        invalid_argument_name_list = [key for key in argument_name_list if not result_dictionary[key]]
+
+        # if there are invalid arguments, raise the error.
+        if len(invalid_argument_name_list) > 0:
+            raise InvalidValueError(invalid_argument_name_list, function)
+
         result = function(*args, **kwargs)
         checker = inspect.signature(function).return_annotation
-        result_dictionary['return'] = check('return', result, checker)
-        invalid_argument_name_list = [key for key, value in result_dictionary.items() if not value]
-        if len(invalid_argument_name_list) > 0:
-            print(
-                '{names} are/is invalid, please see the file {file_name}, line number {line_number}'.format(
-                    names = ', '.join(invalid_argument_name_list),
-                    file_name = function.__code__.co_filename,
-                    line_number = function.__code__.co_firstlineno
-                )
-            )
+        if not check('return', result, checker):
+            raise InvalidValueError(['return'], function)
+
         return result
     return wrapper
 
 def check(name, value, checker):
-    if checker is inspect._empty:
+    if isinstance(checker, tuple):
+        return True in [check(name, value, sub_checker) for sub_checker in checker]
+    elif checker is inspect._empty:
         return True
     elif isinstance(checker, type):
         return isinstance(value, checker)
@@ -41,19 +56,40 @@ def check(name, value, checker):
         return result
 
 def testcases():
-    @auto_type_convertor
-    def add(a, b, c: int, d: int = 3) -> str:
-        return int(a) + int(b) + int(c) + int(d)
+    @auto_type_checker
+    def add(a, b, c: (int, float), d: int) -> str:
+        return a + b + c + d
 
-    @auto_type_convertor
-    def cat(x: lambda x: x > 0, y: int) -> bool:
-        return (x + y) > 3
+    @auto_type_checker
+    def test(x: lambda x: x >= 0, y: list, z: str) -> str:
+        return y[x] == z
 
-    print(add(1, 2, '3'))
-    print(add(1, 2, '3', '4'))
+    class Test():
+        base = 1
+        @auto_type_checker
+        def add(self, a, b, c: (int, float), d: int) -> str:
+            return self.base + a + b + c + d
 
-    print(cat(1, 3))
-    print(cat(-1, 3))
+    try:
+        print(add(1, 2, 2.3, 3.4))
+    except Exception as e:
+        print(e)
+
+    try:
+        print(test(-2, 3, 4))
+    except Exception as e:
+        print(e)
+
+    try:
+        print(test(2, [1, 2, 3, 4], '3'))
+    except Exception as e:
+        print(e)
+
+    var = Test()
+    try:
+        var.add(1, 2, 3.3, 4.5)
+    except Exception as e:
+        print(e)
 
 if __name__ == '__main__':
     testcases()
