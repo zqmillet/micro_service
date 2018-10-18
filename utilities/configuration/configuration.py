@@ -48,9 +48,9 @@ class Configuration(dict):
 
         for key, value in argument.items():
             if isinstance(value, dict):
-                setattr(self, key, Configuration(value, code_prefix = self.__code_prefix))
+                value = Configuration(value, code_prefix = self.__code_prefix)
             else:
                 if isinstance(value, str) and value.startswith(self.__code_prefix):
                     value = execute(value.strip(self.__code_prefix).strip())
-                setattr(self, key, value)
+            setattr(self, key, value)
             self[key] = value
