@@ -50,6 +50,7 @@ class Logger(logging.Logger):
                 the default value is DEBUG.
         '''
 
+        main_title += '.' + flow_type
         logger = logging.getLogger(main_title)
         self.__dict__ = logger.__dict__
         self.setLevel(LOGGING_LEVEL.DEBUG)

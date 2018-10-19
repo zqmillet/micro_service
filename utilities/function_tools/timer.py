@@ -6,7 +6,7 @@ class Timer(object):
     auto_print = None
 
     def __init__(self, message = None, auto_print = False):
-        self.message = message
+        self.message = message if not message is None else 'consuming time is {time}s'
         self.auto_print = auto_print
 
     def __enter__(self):
@@ -16,18 +16,18 @@ class Timer(object):
     def __exit__(self, *args):
         self.end = time.time()
         self.interval = self.end - self.start
+        self.message = self.message.format(time = self.interval)
         if self.auto_print:
-            self.message = self.message.format(time = self.interval)
             print(self.message)
 
 def testcases():
-    with Timer('consuming time is {time}s', auto_print = True):
+    with Timer(auto_print = True):
         a = 3
 
-    with Timer() as timer:
-        a = sum(range(10000))
+    with Timer('2333 {time} 2333') as timer:
+        a = sum(range(100000))
 
-    print('consuming time is {time}s'.format(time = timer.interval))
+    print(timer.message)
 
 if __name__ == '__main__':
     testcases()

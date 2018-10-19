@@ -34,5 +34,6 @@ class LOGGING_FORMAT:
     %(threadName)s      - thread name (if available).
     '''
 
-    STANDARD = '[%(asctime)s][%(name)12s][%(levelname)8s][%(message)s][%(pathname)s:%(lineno)d]'
-    SIMPLE   = '[%(asctime)s][%(name)12s][%(levelname)8s][%(message)s][%(pathname)s:%(lineno)d]'
+    STANDARD          = '[%(asctime)s][%(levelname)8s][%(name)12s][%(message)s][%(pathname)s:%(lineno)d]'
+    SIMPLE            = '[%(asctime)s][%(levelname)8s][%(name)12s][%(message)s][%(pathname)s:%(lineno)d]'
+    MONONAME_STANDARD = '[%(asctime)s][%(name)-{width}s][%(levelname)-8s][%(message)s][%(pathname)s:%(lineno)d]'

@@ -1,0 +1,14 @@
+{
+    "main": {
+        "main_title": "micro_service",
+        "flow_type": "main"
+    },
+    "word_vector": {
+        "main_title": "micro_service",
+        "flow_type": "word_vector"
+    },
+    "resources": {
+        "main_title": "micro_service",
+        "flow_type": "resources"
+    }
+}
