@@ -4,6 +4,7 @@ from utilities.argument_parser import ArgumentParser
 from utilities.logger import Logger
 from utilities.webserver import Server
 from utilities.configuration import Configuration
+from resources import loggers
 
 def parse_arguments():
     arguments = ArgumentParser()
@@ -41,12 +42,8 @@ def parse_arguments():
 def start():
     arguments = parse_arguments()
 
-    logger = Logger(
-        main_title = arguments.title,
-        flow_type  = arguments.flow
-    )
     configuration = Configuration(arguments.configuration)
-    server = Server(configuration = configuration, logger = logger, port = arguments.port)
+    server = Server(configuration = configuration, logger = loggers.main, port = arguments.port)
     server.start()
 
 if __name__ == '__main__':
