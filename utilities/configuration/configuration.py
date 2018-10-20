@@ -13,7 +13,7 @@ class Configuration(dict):
     # if a value starts with __code_prefix, it is a python code.
     __code_prefix = None
 
-    def __init__(self, argument, code_prefix = '###'):
+    def __init__(self, argument, code_prefix = '###', auto_execute = False):
         '''
         this is the constructor of the class Configuration.
 
@@ -48,9 +48,22 @@ class Configuration(dict):
 
         for key, value in argument.items():
             if isinstance(value, dict):
-                value = Configuration(value, code_prefix = self.__code_prefix)
-            else:
-                if isinstance(value, str) and value.startswith(self.__code_prefix):
-                    value = execute(value.strip(self.__code_prefix).strip())
+                value = Configuration(value, code_prefix = self.__code_prefix, auto_execute = auto_execute)
+            elif auto_execute:
+                value = execute(value.strip(self.__code_prefix).strip())
             setattr(self, key, value)
             self[key] = value
+
+    def execute(self):
+        for key in self:
+            value = self[key]
+            if isinstance(value, str) and value.startswith(self.__code_prefix):
+                value = execute(value.strip(self.__code_prefix).strip())
+            elif isinstance(value, Configuration):
+                value.execute()
+            else:
+                pass
+
+            self[key] = value
+            setattr(self, key, value)
+

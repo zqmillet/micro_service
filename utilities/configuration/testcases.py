@@ -34,6 +34,7 @@ def testcases():
     print('-' * 40)
     print('initialize the configuration with a file who has python code.')
     configuration = Configuration('./config/math.json')
+    configuration.execute()
 
     print('the configuration is:')
     print(configuration)
