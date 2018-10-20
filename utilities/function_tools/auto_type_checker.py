@@ -14,8 +14,10 @@ def auto_type_checker(function):
         checker_list = [parameters[argument_name].annotation for argument_name in argument_name_list]
 
         # fetch the value list.
-        key_word_argument_name_list = argument_name_list[-len(kwargs)] if not len(kwargs) == 0 else list()
+        key_word_argument_name_list = argument_name_list[-len(kwargs):] if not len(kwargs) == 0 else list()
+        default_value = list(inspect.getfullargspec(function).defaults)
         value_list = list(args) + [kwargs[argument_name] for argument_name in key_word_argument_name_list]
+        value_list = value_list + default_value[len(value_list) - len(argument_name_list):]
 
         # initialize the result dictionary, where key is argument name, value is the checker result.
         result_dictionary = dict()
@@ -42,7 +44,6 @@ def auto_type_checker(function):
 
 def check(name, value, checker, function):
     if isinstance(checker, (tuple, list, set)):
-
         return True in [check(name, value, sub_checker, function) for sub_checker in checker]
     elif checker is inspect._empty:
         return True

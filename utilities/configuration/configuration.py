@@ -4,6 +4,7 @@ import os
 from constants import FILE_MODE, ENCODE
 from exceptions import FileDoesNotExistError, TypeError
 from utilities.configuration import execute
+from utilities.function_tools import auto_type_checker
 
 class Configuration(dict):
     '''
@@ -13,7 +14,8 @@ class Configuration(dict):
     # if a value starts with __code_prefix, it is a python code.
     __code_prefix = None
 
-    def __init__(self, argument, code_prefix = '###', auto_execute = False):
+    @auto_type_checker
+    def __init__(self, argument: (str, dict), code_prefix: str = '###', auto_execute: bool = False):
         '''
         this is the constructor of the class Configuration.
 

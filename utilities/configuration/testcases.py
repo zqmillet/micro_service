@@ -47,17 +47,17 @@ def testcases():
 
     try:
         configuration = Configuration('../config/math.json')
-    except FileDoesNotExistError as e:
+    except Exception as e:
         print(e)
 
     try:
         configuration = Configuration([1, 2, 3])
-    except TypeError as e:
+    except Exception as e:
         print(e)
 
     try:
         configuration = Configuration(0)
-    except TypeError as e:
+    except Exception as e:
         print(e)
 
 if __name__ == '__main__':
