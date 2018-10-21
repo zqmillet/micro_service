@@ -2,7 +2,7 @@ import json
 import os
 
 from constants import FILE_MODE, ENCODE
-from exceptions import FileDoesNotExistError, TypeError
+from exceptions import FileDoesNotExistError
 from utilities.configuration import execute
 from utilities.function_tools import auto_type_checker
 
