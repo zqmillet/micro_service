@@ -20,20 +20,20 @@ class Configuration(dict):
         this is the constructor of the class Configuration.
 
         parameters:
-            - argument <str>/<dict>:
+            - argument:
                 this is the input argument.
                 if its type is str, it will be regarded as a json file path;
                 if its type is dict, it will be regarded as a dictionary.
 
-            - code_prefix <str>:
+            - code_prefix:
                 if a value starts with code_prefix, it is a python code.
+
+            - auto_execute:
+                if auto_execute is True, this class will auto execute the value which startswith the code_prefix.
 
         exceptions:
             - FileDoesNotExistError:
                 if the input file does not exist, this error will be thrown.
-
-            - TypeError:
-                if the argument is not a dictionary, this error will be thrown.
         '''
 
         self.__code_prefix = code_prefix
@@ -45,9 +45,6 @@ class Configuration(dict):
             with open(argument, FILE_MODE.READ, encoding = ENCODE.UTF8) as file:
                 argument = json.loads(file.read())
 
-        if not isinstance(argument, dict):
-            raise TypeError(type(argument))
-
         for key, value in argument.items():
             if isinstance(value, dict):
                 value = Configuration(value, code_prefix = self.__code_prefix, auto_execute = auto_execute)
@@ -57,6 +54,10 @@ class Configuration(dict):
             self[key] = value
 
     def execute(self):
+        '''
+        this function is used the execute the value which startswith the code_prefix.
+        '''
+
         for key in self:
             value = self[key]
             if isinstance(value, str) and value.startswith(self.__code_prefix):
