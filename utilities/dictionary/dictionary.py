@@ -1,5 +1,7 @@
 import collections
 
+from utilities.function_tools import auto_type_checker
+
 class Dictionary(collections.defaultdict):
     '''
     this class inherits from collections.defaultdict.
@@ -8,12 +10,13 @@ class Dictionary(collections.defaultdict):
     the function get will try all keys successively.
     '''
 
-    def load(self, dictionary):
+    @auto_type_checker
+    def load(self, dictionary: (dict, collections.defaultdict)):
         '''
         this function is used to load the data from buildin dictionary.
 
         parameters:
-            - dictionary <dict>/<collections.defaultdict>:
+            - dictionary:
                 the buildin dictionary.
         '''
 

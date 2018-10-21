@@ -3,6 +3,7 @@ import logging
 import datetime
 
 from utilities.logger import get_handler
+from utilities.function_tools import auto_type_checker
 from constants import LOGGING_LEVEL, LOGGING_HANDLER, LOGGING_FORMAT
 
 class Logger(logging.Logger):
@@ -12,21 +13,21 @@ class Logger(logging.Logger):
     member variables:
         nothing.
     '''
-
+    @auto_type_checker
     def __init__(
         self,
-        main_title   = 'root',
-        flow_type    = 'service',
-        workspace    = './log/',
-        format       = LOGGING_FORMAT.STANDARD,
-        handler_list = [LOGGING_HANDLER.STREAM, LOGGING_HANDLER.FILE],
-        level        = LOGGING_LEVEL.DEBUG
+        main_title: str    = 'root',
+        flow_type: str     = 'service',
+        workspace: str     = './log/',
+        format: str        = LOGGING_FORMAT.STANDARD,
+        handler_list: list = None,
+        level: int         = LOGGING_LEVEL.DEBUG
     ):
         '''
         this is the constructor of the class Logger.
 
         parameters:
-            - main_title <str>:
+            - main_title:
                 the main title of the logger.
 
             - flow_type <str>:
@@ -52,6 +53,7 @@ class Logger(logging.Logger):
 
         main_title += '.' + flow_type
         logger = logging.getLogger(main_title)
+        handler_list = [LOGGING_HANDLER.STREAM, LOGGING_HANDLER.FILE] if handler_list is None else handler_list
         self.__dict__ = logger.__dict__
         self.setLevel(LOGGING_LEVEL.DEBUG)
         self.propagate = False
