@@ -4,12 +4,11 @@ from utilities.function_tools import auto_type_checker
 
 @auto_type_checker
 def execute(code: str) -> object:
-
     '''
     this function is used to execute the python code, and get the value of the last line.
 
     parameters:
-        - code <str>:
+        - code:
             this is the python code which will be executed.
     '''
 
