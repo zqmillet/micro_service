@@ -29,6 +29,5 @@ def testcases():
     logger2.error('this is error.')
     logger2.critical('this is critical.')
 
-
 if __name__ == '__main__':
     testcases()
