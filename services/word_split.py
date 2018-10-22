@@ -1,5 +1,6 @@
 from utilities.webserver import convert_to_string
-from resources import word_splitter
+
+from resources.word_splitter import word_splitter
 
 def word_split(text: str, format: str = 'list') -> convert_to_string:
     if format == 'list':

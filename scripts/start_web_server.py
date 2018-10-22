@@ -4,7 +4,7 @@ from utilities.argument_parser import ArgumentParser
 from utilities.logger import Logger
 from utilities.webserver import Server
 from utilities.configuration import Configuration
-from resources import loggers
+from resources.loggers import loggers
 
 def parse_arguments():
     arguments = ArgumentParser()

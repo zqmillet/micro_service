@@ -2,25 +2,25 @@
     "get_nearest_word_list": {
         "enable":   true,
         "api_path": "/get_nearest_word_list",
-        "function": "### from services import get_nearest_word_list; get_nearest_word_list",
+        "function": "### from services.get_nearest_word_list import get_nearest_word_list; get_nearest_word_list",
         "methods":  "get"
     },
     "get_word_vector": {
         "enable":   true,
         "api_path": "/get_word_vector",
-        "function": "### from services import get_word_vector; get_word_vector",
+        "function": "### from services.get_word_vector import get_word_vector; get_word_vector",
         "methods":  "get/post"
     },
     "auto_complete": {
         "enable":   true,
         "api_path": "/auto_complete",
-        "function": "### from services import auto_complete; auto_complete",
+        "function": "### from services.auto_complete import auto_complete; auto_complete",
         "methods":  "get"
     },
     "word_split": {
         "enable":   true,
         "api_path": "/word_split",
-        "function": "### from services import word_split; word_split",
+        "function": "### from services.word_split import word_split; word_split",
         "methods":  "get"
     }
 }

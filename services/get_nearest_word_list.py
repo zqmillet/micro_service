@@ -1,5 +1,6 @@
-from resources import word_vector
 from utilities.webserver import convert_to_string
+
+from resources.word_vector import word_vector
 
 def get_nearest_word_list(word: str, topn: int = 10) -> convert_to_string:
     '''

@@ -12,6 +12,7 @@ def create_tornado_request_handler(function, method_list, logger):
         now = time.time()
         input_arguments= {key: value[0].decode(ENCODE.UTF8) for key, value in self.request.arguments.items()}
         try:
+            import pdb; pdb.set_trace()
             result = function(**input_arguments)
             self.write(result)
             logger.info('the function {function_name} is called by get, the time consuming is {time_consuming}s'.format(function_name = function.__name__, time_consuming = time.time() - now))
