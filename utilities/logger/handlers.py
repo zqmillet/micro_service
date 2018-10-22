@@ -31,7 +31,7 @@ class DailyFileHandler(logging.handlers.TimedRotatingFileHandler):
                 the extension of the logging files.
         '''
 
-        file_name = file_name + '_' + '0' * len(self.get_yesterday_string()) + '.' + extension
+        file_name = file_name + '.' + '0' * len(self.get_yesterday_string()) + '.' + extension
         super(DailyFileHandler, self).__init__(
             filename    = file_name,
             when        = 'MIDNIGHT',
