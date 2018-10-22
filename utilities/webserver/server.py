@@ -56,6 +56,7 @@ class Server(object):
             service_information = getattr(configuration, service_name)
             if not service_information.enable:
                 continue
+            service_information.execute()
             self.__application.regist_service(
                 function    = convert_input_argument_type(getattr(configuration, service_name).function),
                 api_path    = service_information.api_path,
