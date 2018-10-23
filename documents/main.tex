@@ -1,8 +1,20 @@
-\documentclass{ctexart}
+\documentclass[10pt, heading = true, scheme = chinese, linespread = 1.67, a4paper, twoside]{ctexart}
+\input{./configurations/basic}
+\input{./configurations/figures}
+\input{./configurations/syntax_hightlight}
+
+\maintitle{词向量原理详解}
+\staffname{}
+\staffnumber{}
+\securitylevel{}
+
+\newcommand{\google}{\raisebox{-3pt}{\includegraphics[height = 1em]{./icons/google_logo.pdf}}}
+\newcommand{\wordvector}{\qframe{word2vec}}
 
 \begin{document}
-  this is test.
-  \begin{align*}
-         344  
-  \end{align*}
+    \input{./cover}
+    \input{./sections/word2vector}
+    \input{./sections/appendix}
+    \input{./references}
 \end{document}
+

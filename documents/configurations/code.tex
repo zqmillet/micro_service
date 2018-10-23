@@ -1,0 +1,161 @@
+%!TEX root = ../main.tex
+
+\usepackage{minted}
+\makeatletter
+\def\inlinebox@true{true}
+\define@key{inlinebox}{frame rule color} {\def\inlinebox@framerulecolor{#1}}
+\define@key{inlinebox}{frame back color} {\def\inlinebox@framebackcolor{#1}}
+\define@key{inlinebox}{frame text color} {\def\inlinebox@frametextcolor{#1}}
+\define@key{inlinebox}{frame rule width} {\def\inlinebox@framerulewidth{#1}}
+\define@key{inlinebox}{banner width}     {\def\inlinebox@bannerwidth{#1}}
+\define@key{inlinebox}{show banner}[true]{\def\inlinebox@showbanner{#1}}
+\define@key{inlinebox}{banner text color}{\def\inlinebox@bannertextcolor{#1}}
+\define@key{inlinebox}{banner back color}{\def\inlinebox@bannerbackcolor{#1}}
+\define@key{inlinebox}{banner text}      {\def\inlinebox@bannertext{#1}}
+\NewDocumentCommand{\inlinebox}{O{} m}{%
+  \setkeys{inlinebox}{%
+    frame rule color  = black,
+    frame back color  = white,
+    frame text color  = black,
+    frame rule width  = 0.4pt,
+    banner width      = 8pt,
+    show banner       = false,
+    banner text color = white,
+    banner back color = black,
+    banner text       = BAN,
+    #1
+  }%
+  \tcbox[%
+    enhanced,
+    tcbox raise base,
+    nobeforeafter,
+    boxrule           = \inlinebox@framerulewidth,
+    top               = -1pt,
+    bottom            = -1pt,
+    right             = -1pt,
+    arc               = 1pt,
+    left              = \ifx\inlinebox@showbanner\inlinebox@true\inlinebox@bannerwidth-2pt\else-1pt\fi,
+    colframe          = \inlinebox@framerulecolor,
+    coltext           = \inlinebox@frametextcolor,
+    colback           = \inlinebox@framebackcolor,
+    before upper      = {\vphantom{蛤dg}},
+    overlay           = {%
+      \begin{tcbclipinterior} \ifx\inlinebox@showbanner\inlinebox@true
+          \fill[\inlinebox@bannerbackcolor] (frame.south west) rectangle node[text = \inlinebox@bannertextcolor, scale = 0.4, font = \sffamily\bfseries, rotate = 90] {\inlinebox@bannertext} ([xshift = \inlinebox@bannerwidth]frame.north west);
+        \fi
+      \end{tcbclipinterior}%
+    }%
+  ]{#2}%
+}
+\makeatother
+
+\let\oldinput\input
+\makeatletter
+\def\input@scale{1}
+\define@key{input}{scale}{\renewcommand*{\input@scale}{#1}}
+\RenewDocumentCommand{\input}{m o}{%
+  \IfNoValueTF{#2}{%
+    \oldinput{#1}%
+  }{%
+    \setkeys{input}{#2}%
+    \scalebox{\input@scale}{\oldinput{#1}}%
+  }%
+}
+\makeatother
+
+\usemintedstyle[python]{default}
+\newtcblisting[auto counter, number within = section]{codebox}[1][]{%
+  listing only,
+  enhanced,
+  breakable,
+  left            = 6mm,
+  top             = 0mm,
+  bottom          = 0mm,
+  boxrule         = 1pt,
+  colframe        = black!50,
+  colback         = white,
+  minted options  = {linenos, numbersep = 8pt, fontsize = \footnotesize, baselinestretch = 1.2, mathescape, breaklines = true, numbersep = 6.5pt},
+  overlay         = {\begin{tcbclipinterior}\fill[black!25] (frame.south west) rectangle ([xshift = 6mm]frame.north west);\end{tcbclipinterior}},
+  #1%
+}
+
+\newtcolorbox[use counter from = codebox, number within = section]{codefilebox}[1][]{%
+  listing only,
+  enhanced,
+  breakable,
+  left            = 6mm,
+  top             = 0mm,
+  bottom          = 0mm,
+  boxrule         = 1pt,
+  colframe        = black!50,
+  colback         = white,
+  minted options  = {linenos, numbersep = 8pt, fontsize = \footnotesize, baselinestretch = 1.2, mathescape, breaklines = true, numbersep = 6.5pt},
+  overlay         = {\begin{tcbclipinterior}\fill[black!25] (frame.south west) rectangle ([xshift = 6mm]frame.north west);\end{tcbclipinterior}},
+  #1%
+}
+
+\makeatletter
+\def\codebox@caption{}
+\def\codebox@label{}
+\def\codebox@continuousnumber{false}
+\def\codebox@true{true}
+\def\codebox@language{python}
+\define@key{codebox}{caption}{\renewcommand*{\codebox@caption}{#1}}
+\define@key{codebox}{label}{\renewcommand*{\codebox@label}{#1}}
+\define@key{codebox}{language}{\renewcommand*{\codebox@language}{#1}}
+\define@key{codebox}{continuous number}[true]{\renewcommand*{\codebox@continuousnumber}{#1}}
+
+\let\oldcodebox\codebox
+\RenewDocumentCommand{\codebox}{O{}}{%
+  \setkeys{codebox}{#1}%
+  \oldcodebox[title = \hspace{-6mm}\small\bfseries 代码 \thetcbcounter. \codebox@caption, label = \codebox@label, minted language = \codebox@language]%
+}
+
+\let\oldendcodebox\endcodebox
+\renewcommand{\endcodebox}{\oldendcodebox\noindent}
+
+\NewDocumentCommand{\inputcode}{O{language = python} m}{%
+\setkeys{codebox}{#1}%
+\begin{codefilebox}[#1]
+  \inputminted[linenos, numbersep = 8pt, fontsize = \footnotesize, baselinestretch = 1.2, mathescape, breaklines = true, numbersep = 6.5pt]{\codebox@language}{#2}
+\end{codefilebox}\noindent%
+}
+
+\let\oldcodefilebox\codefilebox
+\RenewDocumentCommand{\codefilebox}{O{}}{%
+  \setkeys{codebox}{#1}%
+  \oldcodefilebox[title = \hspace{-6mm}\small\bfseries 代码 \thetcbcounter. \codebox@caption, label = \codebox@label, minted language = \codebox@language]%
+}
+\makeatother
+
+\usepackage{cleveref}
+  \makeatletter
+  \crefformat{figure}              {图 #2#1#3}
+  \crefformat{section}             {第 #2#1#3 小节}
+  \crefformat{table}               {表 #2#1#3}
+  \crefformat{appendix}            {附录 #2#1#3}
+  \crefformat{equation}            {公式 #2(#1)#3}
+  \crefformat{Example}             {例 #2#1#3}
+  \crefformat{tcb@cnt@codebox}     {代码 #2#1#3}
+  \crefformat{tcb@cnt@codefilebox} {代码 #2#1#3}
+  \makeatother
+
+\newcommand{\qframe}[1]{\inlinebox[frame rule color = black]{\mintinline{text}{#1}}}
+
+\newcommand{\ilfile}[1]{\inlinebox[show banner, banner back color = green!70, frame rule color = green, banner text = FILE]{\mintinline{text}{#1}}}
+\newcommand{\illibrary}[1]{\inlinebox[show banner, banner back color = black!70, frame rule color = black, banner text = LIB]{\mintinline{text}{#1}}}
+\newcommand{\ilclass}[1]{\inlinebox[show banner, banner back color = red!70, frame rule color = red, banner text = CLS]{\mintinline{text}{#1}}}
+\newcommand{\ilfunction}[1]{\inlinebox[show banner, banner back color = blue!70, frame rule color = blue, banner text = FUNC]{\mintinline{text}{#1}}}
+\newcommand{\ilcommand}[1]{\inlinebox[show banner, banner back color = black, frame rule color = black, banner text = CMD]{\mintinline{text}{#1}}}
+\newcommand{\ilvariable}[1]{\inlinebox[banner back color = lightgreen, frame rule color = black]{\mintinline{text}{#1}}}
+\newcommand{\ilapi}[1]{\inlinebox[show banner, banner back color = black!70, frame rule color = black, banner text = API]{\mintinline{text}{#1}}}
+\newcommand{\ilmethod}[1]{\inlinebox[show banner, banner back color = black!70, frame rule color = black, banner text = MTHD]{\mintinline{text}{#1}}}
+\newcommand{\iltype}[1]{\inlinebox[show banner, banner back color = lightgreen, frame rule color = green, banner text = TYPE]{\texttt{#1}}}
+\newcommand{\ilnode}[1]{\inlinebox[banner back color = lightgreen, frame rule color = black]{\mintinline{text}{#1}}}
+
+
+\newcommand{\ilinteger}[1]{\inlinebox[show banner, banner back color = black, frame rule color = black, banner text = INT]{\mintinline{text}{#1}}}
+\newcommand{\ilstring}[1]{\inlinebox[show banner, banner back color = black, frame rule color = black, banner text = STR]{\mintinline{text}{#1}}}
+\newcommand{\iljson}[1]{\inlinebox[show banner, banner back color = black, frame rule color = black, banner text = JSON]{\mintinline{text}{#1}}}
+\newcommand{\illist}[1]{\inlinebox[show banner, banner back color = black, frame rule color = black, banner text = LIST]{\mintinline{text}{#1}}}
+

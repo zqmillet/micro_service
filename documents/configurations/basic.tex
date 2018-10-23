@@ -1,0 +1,196 @@
+%!TEX root = ../main.tex
+
+\usepackage[many, minted]{tcolorbox}
+  \tcbuselibrary{breakable}
+
+\usepackage{mathrsfs}
+\usepackage{amssymb, amsmath, bm, mathtools}
+  \let\oldvec\vec
+  \renewcommand{\vec}[1]{\oldvec{\bm{#1}}}
+  \newcommand{\eqdef}{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
+  \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+  \def\e{\mathrm{e}}
+  \def\dif{\mathrm{d}}
+  \def\ustep{1_{\mathbb{R}^+}}
+  \DeclareMathOperator*{\argmax}{arg\,max}
+  \DeclareMathOperator*{\softmax}{softmax}
+  \DeclareMathOperator*{\random}{random}
+  \allowdisplaybreaks
+
+
+\usepackage{pifont}
+\let\proofname\relax
+\usepackage[amsmath, amsthm, thmmarks, hyperref]{ntheorem}
+  \newcounter{DefinitionCounter}
+  \numberwithin{DefinitionCounter}{section}
+  \theoremstyle{plain}
+  \theoremsymbol{\ding{117}}
+  \theoremseparator{.}
+  \newtheorem{Definition}[DefinitionCounter]{定义}
+  \let\oldDefinition\Definition
+  \def\Definition{\oldDefinition\normalfont\kaishu}
+
+  % \newcounter{CriterionCounter}
+  % \numberwithin{CriterionCounter}{section}
+  % \theoremstyle{plain}
+  % \theoremsymbol{\ding{117}}
+  % \theoremseparator{.}
+  % \newtheorem{Criterion}[CriterionCounter]{判据}
+  % \let\oldCriterion\Criterion
+  % \def\Criterion{\oldCriterion\normalfont\itshape}
+
+  % \newcounter{LemmaCounter}
+  % \numberwithin{LemmaCounter}{section}
+  % \theoremstyle{plain}
+  % \theoremsymbol{\Circle}
+  % \theoremseparator{.}
+  % \newtheorem{Lemma}[LemmaCounter]{引理}
+  % \let\oldLemma\Lemma
+  % \def\Lemma{\oldLemma\normalfont\itshape}
+
+  \newcounter{ExampleCounter}
+  \numberwithin{ExampleCounter}{section}
+  \theoremstyle{plain}
+  \theoremsymbol{$\Box$}
+  \theoremseparator{.}
+  \newtheorem{Example}[ExampleCounter]{例}
+  \let\oldExample\Example
+  \def\Example{\oldExample\normalfont\itshape}
+
+  % \newcounter{TheoremCounter}
+  % \numberwithin{TheoremCounter}{section}
+  % \theoremstyle{plain}
+  % \theoremsymbol{$\Diamond$}
+  % \theoremseparator{.}
+  % \newtheorem{Theorem}[TheoremCounter]{定理}
+  % \let\oldTheorem\Theorem
+  % \def\Theorem{\oldTheorem\normalfont\itshape}
+
+  % \newcounter{ProofCounter}
+  % \numberwithin{ProofCounter}{section}
+  % \theoremstyle{plain}
+  % \theoremsymbol{\ding{110}}
+  % \theoremseparator{.}
+  % \newtheorem{Proof}[ProofCounter]{证明}
+  % \let\oldProof\Proof
+  % \def\Proof{\oldProof\normalfont\itshape}
+
+
+\usepackage{geometry}
+  \geometry
+  {
+    inner          = 1.1in,
+    outer          = 1.1in,
+    top            = 1.2in,
+    bottom         = 1.2in,
+    marginparwidth = 1.3in,
+    marginparsep   = 0pt,
+    headheight     = 21pt
+  }
+
+\definecolor{green}{RGB}{0, 99, 50}
+\definecolor{lightgreen}{RGB}{0, 209, 73}
+\colorlet{lightblue}{blue!10}
+
+\def\textvfill{\vphantom{蛤}}
+
+\usepackage{indentfirst}
+
+\usepackage[
+  bookmarks = true,
+  colorlinks,
+  linkcolor = {black},
+  citecolor = {blue!50!black},
+  urlcolor  = black,
+  bookmarksdepth = 4,
+  pdfpagelabels]{hyperref}
+
+\usepackage{tabu}
+\usepackage{enumitem}
+  \setenumerate[1]{itemsep = 0pt, partopsep = 0pt, parsep = 0pt, topsep = 0pt, label = (\arabic*), leftmargin = \parindent}
+  \setitemize[1]  {itemsep = 0pt, partopsep = 0pt, parsep = 0pt, topsep = 0pt, leftmargin = 1em}
+  \setitemize[2]  {itemsep = 0pt, partopsep = 0pt, parsep = 0pt, topsep = 0pt, leftmargin = 1em}
+  \setdescription {labelindent = 0em, itemsep = 0pt, parsep = 0pt, topsep = 0pt, partopsep = 0pt, labelsep* = 1em, leftmargin = !, style = standard, font = \normalfont}
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+  \makeatletter
+  \DeclareDocumentCommand\staffname{m}{
+    \gdef\qiqi@staffname{#1}
+  }
+  \DeclareDocumentCommand\staffnumber{m}{
+    \gdef\qiqi@staffnumber{#1}
+  }
+  \DeclareDocumentCommand\maintitle{m}{
+    \gdef\qiqi@title{#1}
+  }
+  \DeclareDocumentCommand\securitylevel{m}{
+    \gdef\qiqi@securitylevel{#1}
+  }
+
+  \fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyhead[LO, LE]{\raisebox{-2pt}{\includegraphics[height = 1em]{./template/logo.pdf}}}
+    \fancyhead[CO, CE]{\qiqi@title}
+    \fancyhead[RO, RE]{\qiqi@staffname{}\texttt{(\qiqi@staffnumber)}}
+    \fancyfoot[CO, CE]{}
+    \fancyfoot[RO, RE]{第 \thepage{} 页，共 \pageref{LastPage} 页}
+    \fancyfoot[LO, LE]{\zhtoday}
+    \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\footrulewidth}{0.4pt}
+  }
+
+  \fancypagestyle{cover}{%
+    \fancyhf{}
+    \fancyhead[LO, LE]{\raisebox{-2pt}{\includegraphics[height = 1em]{./template/logo.pdf}}}
+    \fancyhead[CO, CE]{\qiqi@title}
+    \fancyhead[RO, RE]{\qiqi@staffname{}\texttt{(\qiqi@staffnumber)}}
+    \fancyfoot[CO, CE]{}
+    \fancyfoot[RO, RE]{第 \thepage{} 页}
+    \fancyfoot[LO, LE]{\zhtoday}
+    \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\footrulewidth}{0.4pt}
+  }
+
+\usepackage{caption}
+  \captionsetup[figure]{
+      font = {small, bf},
+      labelsep = period,
+      textformat = simple,
+      skip = 5pt
+  }
+  \captionsetup[table]{
+      font = {small, bf},
+      labelsep = period,
+      textformat = simple,
+      skip = 5pt
+  }
+
+\usepackage{subcaption}
+  \newcommand*\groupplotlabel[3]{\node[anchor = south, scale = 0.7, font = \bfseries] at (#1) {\phantomsubcaption\label{#2}\subref{#2}. #3};}
+  \makeatletter
+  \renewcommand{\p@subfigure}{\thefigure.} % default: "\thefigure" (without the ".")
+  \makeatother
+
+\usepackage{chngcntr}
+  \counterwithin{figure}{section}
+  \counterwithin{equation}{section}
+
+\usepackage{titlesec}
+  % \titleformat{\chapter}{\bfseries\centering\fontsize{16pt}{0pt}\selectfont}{第\chinese{chapter}章}{1em}{}
+  % \titlespacing*{\chapter}{0pt}{15pt}{12pt}
+  \titleformat*{\section}{\bfseries\fontsize{14pt}{14pt}\selectfont}
+  \titlespacing*{\section}{0pt}{10pt}{6pt}
+  \titleformat*{\subsection}{\bfseries\fontsize{12pt}{12pt}\selectfont}
+  \titlespacing*{\subsection}{0pt}{10pt}{6pt}
+  \titleformat*{\subsubsection}{\bfseries\fontsize{12pt}{12pt}\selectfont}
+  \titlespacing*{\subsubsection}{0pt}{10pt}{6pt}
+  \setcounter{secnumdepth}{4}
+  \setcounter{tocdepth}{1}
+
+\usepackage{times}
+\usepackage{inconsolata}
+\usepackage{setspace}
+\usepackage{xkeyval}
+\usepackage{xparse}
+
