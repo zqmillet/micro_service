@@ -1,6 +1,6 @@
 import collections
 
-from utilities.function_tools import auto_type_checker
+from utilities.function_tools import auto_type_checker, is_hashable
 
 class Dictionary(collections.defaultdict):
     '''
@@ -10,16 +10,17 @@ class Dictionary(collections.defaultdict):
     the function get will try all keys successively.
     '''
 
-    def get(self, argument, default_value = None):
+    @auto_type_checker
+    def get(self, argument: (is_hashable, list), default_value = None):
         '''
         this function is used to overrided the function get of the class dict or collections.defaultdict.
 
         parameters:
-            - argument <list>/<str>/...:
+            - argument:
                 if the type of argument is list, it will be regarded as a list of keys, and the function will try all keys successively.
                 if the type of argument is not list, will be regarded as a key.
 
-            - default_value <any>:
+            - default_value:
                 if all keys are not in this dictionary, this function will return the default_value.
         '''
 
