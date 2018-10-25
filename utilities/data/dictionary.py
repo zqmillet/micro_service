@@ -50,3 +50,17 @@ class Dictionary(collections.defaultdict):
                 return self[argument]
             else:
                 return default_value
+
+def testcases():
+    dictionary = Dictionary()
+    dictionary.load(
+        {
+            'name': 'qiqi',
+            'age': 18
+        }
+    )
+    print(dictionary.get('name'))
+    print(dictionary.get(['alias', 'hahaha', 'name']))
+
+if __name__ == '__main__':
+    testcases()
