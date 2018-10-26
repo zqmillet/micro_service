@@ -1,8 +1,12 @@
 import json
 
 from utilities.mysql import MySQLValue, value_to_string
+from utilities.function_tools import auto_type_checker
 
 class MySQLItem:
+    '''
+    '''
+
     __item_dictionary = None
     __type_dictionary = None
     __cursor = None
@@ -11,7 +15,8 @@ class MySQLItem:
     __collection_name = None
     __collection = None
 
-    def __init__(self, column_list, type_list, value_list, database_name, collection_name, collection, cursor):
+    @auto_type_checker
+    def __init__(self, column_list: list, type_list: list, value_list: list, database_name: str, collection_name: str, collection, cursor):
         self.__cursor = cursor
         self.__database_name = database_name
         self.__collection_name = collection_name
@@ -23,7 +28,8 @@ class MySQLItem:
         for column, type, value in zip(column_list, type_list, value_list):
             self.__item_dictionary[column] = MySQLValue(value = value, type = type)
 
-    def __str__(self):
+    @auto_type_checker
+    def __str__(self) -> str:
         return json.dumps({key: value.evaluate() for key, value in self.__item_dictionary.items()}, ensure_ascii = False)
 
     def drop(self):
