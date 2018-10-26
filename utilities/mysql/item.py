@@ -5,6 +5,12 @@ from utilities.function_tools import auto_type_checker
 
 class MySQLItem:
     '''
+    this class is used to manage the items in the collection of the mysql database.
+
+    member variables:
+        - __item_dictionary <dict>:
+
+
     '''
 
     __item_dictionary = None
