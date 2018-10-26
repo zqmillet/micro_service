@@ -1,4 +1,7 @@
-def value_to_string(value):
+from utilities.function_tools import auto_type_checker
+
+@auto_type_checker
+def value_to_string(value) -> str:
     if isinstance(value, str):
         prefix = '"'
         suffix = '"'
@@ -11,7 +14,8 @@ def value_to_string(value):
         suffix = suffix
     )
 
-def fetch_python_type(mysql_type):
+@auto_type_checker
+def fetch_python_type(mysql_type: str) -> type:
     mysql_type = mysql_type.split('(')[0]
     type_dictionary = {
         int:   ['tinyint', 'smallint', 'mediumint', 'int', 'bigint', 'bit'],

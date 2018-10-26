@@ -16,7 +16,7 @@ class MySQLItem:
     __collection = None
 
     @auto_type_checker
-    def __init__(self, column_list: list, type_list: list, value_list: list, database_name: str, collection_name: str, collection, cursor):
+    def __init__(self, column_list: list, type_list: list, value_list: (list, tuple), database_name: str, collection_name: str, collection, cursor):
         self.__cursor = cursor
         self.__database_name = database_name
         self.__collection_name = collection_name
