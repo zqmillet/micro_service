@@ -2,6 +2,7 @@ import pymysql
 import json
 
 from utilities.mysql import MySQLDatabase
+from utilities.function_tools import auto_type_checker
 from constants import ENCODE
 
 class MySQLSession:
@@ -15,24 +16,25 @@ class MySQLSession:
 
     __session = None
 
-    def __init__(self, host, port, username, password, charset = ENCODE.UTF8):
+    @auto_type_checker
+    def __init__(self, host: str, port: int, username: str, password: str, charset: str = ENCODE.UTF8):
         '''
         this is the constructor of the class MySQLSession.
 
         parameters:
-            - host <str>:
+            - host:
                 the ip address of the mysql host.
 
-            - post <int>:
+            - post:
                 the port of the mysql host.
 
-            - username <str>:
+            - username:
                 the username of the mysql database.
 
-            - password <str>:
+            - password:
                 the password of the mysql database.
 
-            - charset <str>:
+            - charset:
                 the charset of the mysql database.
                 the default value is utf8.
         '''
@@ -46,15 +48,16 @@ class MySQLSession:
             autocommit = True
         )
 
-    def execute(self, command):
+    @auto_type_checker
+    def execute(self, command: str) -> tuple:
         '''
         this function is used to execute the command.
 
         parameters:
-            - command <str>:
+            - command:
                 the command will be executed.
 
-        return <tuple>:
+        return:
             the results of the command.
         '''
 
@@ -76,20 +79,22 @@ class MySQLSession:
 
         return self.__session.cursor()
 
-    def fetch_database_name_list(self):
+    @auto_type_checker
+    def fetch_database_name_list(self) -> list:
         '''
         this function is used to fetch the list of database names of mysql.
 
         parameters:
             nothing.
 
-        return <list>:
+        return:
             the list of database names.
         '''
 
         return [item[0] for item in self.execute('show databases')]
 
-    def fetch_database(self, database_name):
+    @auto_type_checker
+    def fetch_database(self, database_name: str) -> MySQLDatabase:
         '''
         this function is used to fetch the database according to the database name.
 
@@ -103,7 +108,8 @@ class MySQLSession:
 
         return MySQLDatabase(database_name = database_name, mysql_session = self)
 
-    def __getitem__(self, database_name):
+    @auto_type_checker
+    def __getitem__(self, database_name: str) -> MySQLDatabase:
         '''
         this function is used to override the function __getitem__.
 
