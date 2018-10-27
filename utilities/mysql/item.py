@@ -10,7 +10,15 @@ class MySQLItem:
     member variables:
         - __item_dictionary <dict>:
 
+        - __type_dictionary <dict>:
 
+        - __cursor <>:
+
+        - database_name <str>:
+
+        - collection_name <str>:
+
+        - collection <>:
     '''
 
     __item_dictionary = None
