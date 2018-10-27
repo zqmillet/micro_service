@@ -64,7 +64,7 @@ class MySQLDatabase(object):
         return mysql_collection
 
     @auto_type_checker
-    def __getitem__(self, collection_name: str) -> MySQLCeollection:
+    def __getitem__(self, collection_name: str) -> MySQLCollection:
         '''
         this function is used to override the __getitem__ of the class MySQLDatabase.
 
