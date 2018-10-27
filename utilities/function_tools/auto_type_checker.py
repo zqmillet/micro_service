@@ -45,6 +45,8 @@ def check(name, value, checker, function):
         return True in [check(name, value, sub_checker, function) for sub_checker in checker]
     elif checker is inspect._empty:
         return True
+    elif checker is None:
+        return value is None
     elif isinstance(checker, type):
         return isinstance(value, checker)
     elif callable(checker):
@@ -67,6 +69,12 @@ def testcases():
         @auto_type_checker
         def add(self, a, b, c: [int, float], d: int) -> lambda x: str(x):
             return self.base + a + b + c + d
+
+    @auto_type_checker
+    def test3(x: int, y: (None, int) = None):
+        if y is None:
+            y = 0
+        return x + y
 
     try:
         print(add(1, 2, 2.3, 3.4))
@@ -93,6 +101,9 @@ def testcases():
         var.add(1, 2, 3, 4)
     except Exception as e:
         print(e)
+
+    print(test3(3))
+    print(test3(4, 4))
 
 if __name__ == '__main__':
     testcases()
