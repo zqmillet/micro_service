@@ -38,7 +38,7 @@ for example, the code of the file `testcases.py` is shown as follows.
 
 the output of the command is shown as follows.
 
-    $ python3 ./testcases.py -h
+    $ python3 utilities/argument_parser/testcases.py -h
     usage: testcases.py [-h] [-c CONFIGURATION] [-p PORT] [-o OUTPUT]
 
     optional arguments:
