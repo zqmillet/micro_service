@@ -38,17 +38,17 @@ for example, the code of the file `testcases.py` is shown as follows.
 
 the output of the command is shown as follows.
 
-	$ python3 ./testcases.py -h
-	usage: testcases.py [-h] [-c CONFIGURATION] [-p PORT] [-o OUTPUT]
+    $ python3 ./testcases.py -h
+    usage: testcases.py [-h] [-c CONFIGURATION] [-p PORT] [-o OUTPUT]
 
-	optional arguments:
-	-h, --help            show this help message and exit
-	-c CONFIGURATION, --configuration CONFIGURATION
-							specify the configuration file path
-							# parameter type: <class 'str'>
-	-p PORT, --port PORT  specify the port
-							# parameter type: <class 'int'>
-							# default value: 8000
-	-o OUTPUT, --output OUTPUT
-							# parameter type: <class 'str'>
-							# default value: ./
+    optional arguments:
+      -h, --help            show this help message and exit
+      -c CONFIGURATION, --configuration CONFIGURATION
+                            specify the configuration file path
+                            # parameter type: <class 'str'>
+      -p PORT, --port PORT  specify the port
+                            # parameter type: <class 'int'>
+                            # default value: 8000
+      -o OUTPUT, --output OUTPUT
+                            # parameter type: <class 'str'>
+                            # default value: ./
