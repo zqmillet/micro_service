@@ -30,12 +30,17 @@ class ArgumentParser(argparse.ArgumentParser):
 
         if 'help' in kwargs:
             kwargs['help'] = kwargs['help'].strip().strip('.')
-            comment_list = list()
-            if 'type' in kwargs:
-                comment_list.append('# parameter type: {type}'.format(type = kwargs['type']))
-            if 'default' in kwargs and not kwargs['default'] == argparse.SUPPRESS:
-                comment_list.append('# default value: {default}'.format(default = kwargs['default']))
+            break_line = '\n'
+        else:
+            kwargs['help'] = ''
+            break_line = ''
 
-            comment = '' if len(comment_list) == 0 else colorama.Fore.BLUE + '\n' + '\n'.join(comment_list) + colorama.Fore.RESET
-            kwargs['help'] = '\n'.join(sum([textwrap.wrap(line) for line in kwargs['help'].split('\n')], [])) + comment
+        comment_list = list()
+        if 'type' in kwargs:
+            comment_list.append('# parameter type: {type}'.format(type = kwargs['type']))
+        if 'default' in kwargs and not kwargs['default'] == argparse.SUPPRESS:
+            comment_list.append('# default value: {default}'.format(default = kwargs['default']))
+
+        comment = '' if len(comment_list) == 0 else colorama.Fore.BLUE + break_line + '\n'.join(comment_list) + colorama.Fore.RESET
+        kwargs['help'] = '\n'.join(sum([textwrap.wrap(line) for line in kwargs['help'].split('\n')], [])) + comment
         super(ArgumentParser, self).add_argument(*argv, **kwargs)
