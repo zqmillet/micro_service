@@ -20,7 +20,19 @@
     "word_split": {
         "enable":   true,
         "api_path": "/word_split",
-        "function": "### from services.word_split import word_split; word_split",
+        "function": "### from services import word_split; word_split",
+        "methods":  "get"
+    },
+    "get_server_time": {
+        "enable":   true,
+        "api_path": "/get_server_time",
+        "function": "### from services.get_server_time import get_server_time; get_server_time",
+        "methods":  "get"
+    },
+    "update_server_time": {
+        "enable":   true,
+        "api_path": "/update_server_time",
+        "function": "### from services.update_server_time import update_server_time; update_server_time",
         "methods":  "get"
     }
 }
