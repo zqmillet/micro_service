@@ -8,26 +8,25 @@ def auto_type_checker(function):
     def wrapper(*args, **kwargs):
         # fetch the argument name list.
         parameters = inspect.signature(function).parameters
-        argument_name_list = list(parameters.keys())
+        argument_list = list(parameters.keys())
 
         # fetch the argument checker list.
-        checker_list = [parameters[argument_name].annotation for argument_name in argument_name_list]
+        checker_list = [parameters[argument].annotation for argument in argument_list]
 
         # fetch the value list.
         value_list =  [inspect.getcallargs(function, *args, **kwargs)[argument] for argument in inspect.getfullargspec(function).args]
 
-        # initialize the result dictionary, where key is argument name, value is the checker result.
+        # initialize the result dictionary, where key is argument, value is the checker result.
         result_dictionary = dict()
-        for name, value, checker in zip(argument_name_list, value_list, checker_list):
-            result_dictionary[name] = check(name, value, checker, function)
+        for argument, value, checker in zip(argument_list, value_list, checker_list):
+            result_dictionary[argument] = check(argument, value, checker, function)
 
-
-        # fetch the invalid argument name list.
-        invalid_argument_name_list = [key for key in argument_name_list if not result_dictionary[key]]
+        # fetch the invalid argument list.
+        invalid_argument_list = [key for key in argument_list if not result_dictionary[key]]
 
         # if there are invalid arguments, raise the error.
-        if len(invalid_argument_name_list) > 0:
-            raise InvalidValueError(invalid_argument_name_list, function)
+        if len(invalid_argument_list) > 0:
+            raise InvalidValueError(invalid_argument_list, function)
 
         # check the result.
         result = function(*args, **kwargs)
