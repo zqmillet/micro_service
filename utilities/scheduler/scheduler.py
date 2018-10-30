@@ -1,6 +1,6 @@
 import functools
+import apscheduler.schedulers.background
 
-from apscheduler.schedulers.background import BackgroundScheduler
 from utilities.function_tools import Timer
 
 class Scheduler:
@@ -16,7 +16,7 @@ class Scheduler:
         this is the constructor of the class, and it has no paramete.
         '''
 
-        self.background_scheduler = BackgroundScheduler()
+        self.background_scheduler = apscheduler.schedulers.background.BackgroundScheduler()
         self.logger = logger
 
     def regist_task(self, **kwargs):
