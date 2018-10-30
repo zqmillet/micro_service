@@ -2,6 +2,7 @@ import inspect
 import functools
 
 from utilities.webserver import Application
+from utilities.scheduler import Scheduler
 
 class Server(object):
     '''
@@ -16,6 +17,7 @@ class Server(object):
     '''
 
     __application = None
+    __scheduler = None
     __port = None
 
     def __init__(self, configuration, logger, port):
@@ -50,6 +52,7 @@ class Server(object):
         '''
 
         self.__application = Application(logger = logger)
+        self.__scheduler = Scheduler(logger = logger)
         self.__port = port
 
         for service_name in configuration.keys():
@@ -57,11 +60,18 @@ class Server(object):
             if not service_information.enable:
                 continue
             service_information.execute()
-            self.__application.regist_service(
-                function    = convert_input_argument_type(getattr(configuration, service_name).function),
-                api_path    = service_information.api_path,
-                method_list = service_information.methods.split('/')
-            )
+
+            if 'api_path' in service_information and 'methods' in service_information:
+                self.__application.regist_service(
+                    function    = convert_input_argument_type(getattr(configuration, service_name).function),
+                    api_path    = service_information.api_path,
+                    method_list = service_information.methods
+                )
+
+            if 'triggers' in service_information:
+                for trigger in service_information.triggers:
+                    self.__scheduler.add_task(getattr(configuration, service_name).function, **trigger)
+
             logger.info('the service {service_name} is registed'.format(service_name = service_name))
         logger.info('all services are ready')
 
@@ -76,6 +86,7 @@ class Server(object):
             nothing.
         '''
 
+        self.__scheduler.start()
         self.__application.start(port = self.__port)
 
 def convert_input_argument_type(function):

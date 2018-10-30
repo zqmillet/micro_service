@@ -14,7 +14,7 @@ def create_tornado_request_handler(function, method_list, logger):
         try:
             result = function(**input_arguments)
             self.write(result)
-            logger.info('the function {function_name} is called by get, the time consuming is {time_consuming}s'.format(function_name = function.__name__, time_consuming = time.time() - now))
+            logger.info('the function {function_name} is called by get, the time consuming is {time_consuming}s'.format(function_name = function.__qualname__, time_consuming = time.time() - now))
         except Exception as e:
             self.set_status(400)
             logger.error(e.args[0])
@@ -31,7 +31,7 @@ def create_tornado_request_handler(function, method_list, logger):
         try:
             result = function(**input_arguments)
             self.write(result)
-            logger.info('the function {function_name} is called by post, the time consuming is {time_consuming}s'.format(function_name = function.__name__, time_consuming = time.time() - now))
+            logger.info('the function {function_name} is called by post, the time consuming is {time_consuming}s'.format(function_name = function.__qualname__, time_consuming = time.time() - now))
         except Exception as e:
             self.set_status(400)
             logger.error(e.args[0])
