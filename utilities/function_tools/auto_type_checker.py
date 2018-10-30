@@ -2,7 +2,6 @@ import functools
 import inspect
 
 from exceptions import InvalidValueError, InvalidCheckerError
-from utilities.function_tools import get_function_value_list
 
 def auto_type_checker(function):
     @functools.wraps(function)
@@ -15,7 +14,7 @@ def auto_type_checker(function):
         checker_list = [parameters[argument_name].annotation for argument_name in argument_name_list]
 
         # fetch the value list.
-        value_list = get_function_value_list(function, *args, **kwargs)
+        value_list =  [inspect.getcallargs(function, *args, **kwargs)[argument] for argument in inspect.getfullargspec(function).args]
 
         # initialize the result dictionary, where key is argument name, value is the checker result.
         result_dictionary = dict()
