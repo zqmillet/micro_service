@@ -30,6 +30,9 @@ class WordSplitter:
             nothing.
         '''
 
+        for handler in jieba.default_logger.handlers:
+            jieba.default_logger.removeHandler(handler)
+
         self.__tokenizer = jieba.Tokenizer()
         self.__dictionary = dict()
         if not dictionary_file_path is None:
