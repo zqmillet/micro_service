@@ -4,7 +4,6 @@ from utilities.argument_parser import ArgumentParser
 from utilities.logger import Logger
 from utilities.webserver import Server
 from utilities.configuration import Configuration
-from resources.loggers import loggers
 
 def parse_arguments():
     arguments = ArgumentParser()
@@ -14,20 +13,6 @@ def parse_arguments():
         type     = str,
         required = True,
         help     = 'specify the service configuration file path'
-    )
-    arguments.add_argument(
-        '-t', '--title',
-        action   = 'store',
-        type     = str,
-        default  = 'micro_service',
-        help     = 'specify the main title for the logger'
-    )
-    arguments.add_argument(
-        '-f', '--flow',
-        action   = 'store',
-        type     = str,
-        default  = 'main',
-        help     = 'specify the flow type for the logger'
     )
     arguments.add_argument(
         '-p', '--port',
@@ -42,6 +27,7 @@ def parse_arguments():
 def start():
     arguments = parse_arguments()
 
+    from resources.loggers import loggers
     configuration = Configuration(arguments.configuration)
     server = Server(configuration = configuration, logger = loggers.main, port = arguments.port)
     server.start()
