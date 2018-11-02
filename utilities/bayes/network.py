@@ -1,0 +1,2 @@
+class BayesianNetwork(object):
+    pass
