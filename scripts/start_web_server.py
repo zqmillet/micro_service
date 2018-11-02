@@ -3,7 +3,6 @@ import sys
 from utilities.argument_parser import ArgumentParser
 from utilities.logger import Logger
 from utilities.webserver import Server
-from utilities.configuration import Configuration
 
 def parse_arguments():
     arguments = ArgumentParser()
@@ -28,8 +27,7 @@ def start():
     arguments = parse_arguments()
 
     from resources.loggers import loggers
-    configuration = Configuration(arguments.configuration)
-    server = Server(configuration = configuration, logger = loggers.main, port = arguments.port)
+    server = Server(configuration_file_path = arguments.configuration, logger = loggers.main, port = arguments.port)
     server.start()
 
 if __name__ == '__main__':

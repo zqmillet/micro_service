@@ -1,8 +1,12 @@
+import json
 import inspect
 import functools
 
+from utilities.configuration import Configuration
 from utilities.webserver import Application
 from utilities.scheduler import Scheduler
+from utilities.function_tools import auto_type_checker
+from constants import FILE_MODE, ENCODE
 
 class Server(object):
     '''
@@ -12,7 +16,10 @@ class Server(object):
         - __application <utilities.webserver.Application>:
             the application.
 
-        - __port:
+        - __scheduler <utilities.scheduler.Scheduler>:
+            the scheduler.
+
+        - __port <int>:
             the port the application listens.
     '''
 
@@ -20,34 +27,18 @@ class Server(object):
     __scheduler = None
     __port = None
 
-    def __init__(self, configuration, logger, port):
+    def __init__(self, configuration_file_path, logger, port):
         '''
         this is the constructor of the class Server.
 
         parameters:
-            - configuration <utilities.configuration.Configuration>:
-                the configuration of the server.
+            - configuration_file_path:
+                the configuration file path of the server.
 
-                for example:
-                    {
-                        "get_nearest_word_list": {
-                            "enable":   true,
-                            "api_path": "/get_nearest_word_list",
-                            "function": "### from services import get_nearest_word_list; get_nearest_word_list",
-                            "methods":  "get"
-                        },
-                        "get_word_vector": {
-                            "enable":   true,
-                            "api_path": "/get_word_vector",
-                            "function": "### from services import get_word_vector; get_word_vector",
-                            "methods":  "get/post"
-                        }
-                    }
-
-            - logger <utilities.logger.Logger>:
+            - logger:
                 specify the logger for the server.
 
-            - port <int>:
+            - port:
                 specify the port for the server.
         '''
 
@@ -55,24 +46,28 @@ class Server(object):
         self.__scheduler = Scheduler(logger = logger)
         self.__port = port
 
-        for service_name in configuration.keys():
-            service_information = getattr(configuration, service_name)
-            if not service_information.enable:
-                continue
-            service_information.execute()
+        with open(configuration_file_path, FILE_MODE.READ, encoding = ENCODE.UTF8) as file:
+            service_information_list = json.loads(file.read())
 
-            if 'api_path' in service_information and 'methods' in service_information:
+        for service_information in service_information_list:
+            configuration = Configuration(service_information)
+
+            if not configuration.enable:
+                continue
+            configuration.execute()
+
+            if 'api_path' in configuration and 'methods' in configuration:
                 self.__application.regist_service(
-                    function    = convert_input_argument_type(getattr(configuration, service_name).function),
-                    api_path    = service_information.api_path,
-                    method_list = service_information.methods
+                    function    = convert_input_argument_type(configuration.function),
+                    api_path    = configuration.api_path,
+                    method_list = configuration.methods
                 )
 
-            if 'triggers' in service_information:
-                for trigger in service_information.triggers:
-                    self.__scheduler.add_task(getattr(configuration, service_name).function, **trigger)
+            if 'triggers' in configuration:
+                for trigger in configuration.triggers:
+                    self.__scheduler.add_task(configuration.function, **trigger)
 
-            logger.info('the service {service_name} is registed'.format(service_name = service_name))
+            logger.info('the service {service_name} is registed'.format(service_name = configuration.name))
         logger.info('all services are ready')
 
     def start(self):
