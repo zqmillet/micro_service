@@ -22,45 +22,51 @@
 
 微服务的配置文件格式如下所示。
 
-    {
-        "get_nearest_word_list": {
+    [
+        {
+            "name":     "get_nearest_word_list",
             "enable":   true,
             "api_path": "/get_nearest_word_list",
             "function": "### from services.get_nearest_word_list import get_nearest_word_list; get_nearest_word_list",
             "methods":  ["get"]
         },
-        "get_word_vector": {
+        {
+            "name":     "get_word_vector",
             "enable":   true,
             "api_path": "/get_word_vector",
             "function": "### from services.get_word_vector import get_word_vector; get_word_vector",
             "methods":  ["get", "post"]
         },
-        "auto_complete": {
+        {
+            "name":     "auto_complete",
             "enable":   true,
             "api_path": "/auto_complete",
             "function": "### from services.auto_complete import auto_complete; auto_complete",
             "methods":  ["get"]
         },
-        "word_split": {
+        {
+            "name":     "word_split",
             "enable":   true,
             "api_path": "/word_split",
             "function": "### from services import word_split; word_split",
             "methods":  ["get"]
         },
-        "get_server_time": {
+        {
+            "name":     "get_server_time",
             "enable":   true,
             "api_path": "/get_server_time",
             "function": "### from resources.time import time; time.__str__",
             "methods":  ["get"]
         },
-        "update_server_time": {
+        {
+            "name":     "update_server_time",
             "enable":   true,
             "api_path": "/update_server_time",
             "function": "### from resources.time import time; time.update",
             "methods":  ["get"],
             "triggers": [{"trigger": "cron", "second": "0, 10, 20, 30, 40, 50"}]
         }
-    }
+    ]
 
 配置文件是 json 文件，
 
