@@ -75,7 +75,7 @@
 - `api_path` 表示该服务对应的 API 访问路径；
 - `function` 表示该服务所对应的函数，该项必须以 `###` 为前缀，后面为标准的 python 代码，该项中的 python 代码的最后一句会被赋值给 `function`；
 - `methods` 表示该服务对应的访问方法列表，目前只支持 `get` 和 `post` 两种方法；
-- `triggers` 表示该服务所对应的触发器列表，当只要有一个触发器满足要求，该服务就会被调用，定时器的配置参数详见 apscheduler 包中的 (`add_job`)[https://apscheduler.readthedocs.io/en/latest/modules/schedulers/base.html] 函数。
+- `triggers` 表示该服务所对应的触发器列表，当只要有一个触发器满足要求，该服务就会被调用，定时器的配置参数详见 apscheduler 包中的 [`add_job`](https://apscheduler.readthedocs.io/en/latest/modules/schedulers/base.html) 函数。
 
 值得注意的是，当 `api_path` 和 `methods` 这两项都被配置时，该函数才会被注册为 API；当 `triggers` 被配置时，该函数会被注册为定时任务。`api_path`、`methods` 和 `triggers` 可以同时存在，此时该函数既是 API，又是定时任务。
 
