@@ -81,3 +81,11 @@
 
 ## 运行
 
+运行
+
+    python3 scripts/start_web_server.py -c ./config/services.json -p 8100
+
+即可启动微服务。其中
+
+- `-c` 参数用来指定微服务配置文件的地址；
+- `-p` 参数用来指定微服务的监听端口，默认值为 `8000`。
